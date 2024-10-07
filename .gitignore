@@ -1,0 +1,6 @@
+# ignore cache map:
+/__pycache__
+# ignore experiment files:
+zexperiment.py
+zodl_monitor.py
+*.log
