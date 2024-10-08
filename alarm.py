@@ -2,6 +2,7 @@ import json
 from logger import Logger
 from email_alert import send_email_alert
 
+alarmlogger = Logger()
 class AlarmManager:
     def __init__(self):
         self.alarms = {"CPU": [], "Memory": [], "Disk": []}
@@ -78,23 +79,24 @@ class AlarmManager:
         triggered = []
         for level in sorted(self.alarms["CPU"], reverse=True):
             if cpu > level:
-                triggered.append(f"***VARNING, CPU ANVÄNDNING ÖVERSTIGER {level}%***")
+                triggered.append(f"*** VARNING, CPU ANVÄNDNING ÖVERSTIGER\t\t\t{level}% ***")
                 break
         
         for level in sorted(self.alarms["Memory"], reverse=True):
             if memory > level:
-                triggered.append(f"***VARNING, MINNESANVÄNDNING ÖVERSTIGER {level}%***")
+                triggered.append(f"*** VARNING, MINNESANVÄNDNING ÖVERSTIGER\t\t{level}% ***")
                 break
         
         for level in sorted(self.alarms["Disk"], reverse=True):
             if disk > level:
-                triggered.append(f"***VARNING, DISKANVÄNDNING ÖVERSTIGER {level}%***")
+                triggered.append(f"*** VARNING, DISKANVÄNDNING ÖVERSTIGER\t\t\t{level}% ***")
                 break
         
         for message in triggered:
             print(message)
-            Logger.log(message)
-            send_email_alert(message)  # Skicka e-post
+            alarmlogger.log(f"{message}")
+            #Logger.log(message)
+            #send_email_alert(message)  # Skicka e-post
 
     def save_alarms(self):
         with open('alarms.json', 'w') as f:
