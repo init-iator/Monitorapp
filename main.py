@@ -60,14 +60,18 @@ def main_menu(): # funktion för menu val.
             
 
 def start_monitoring_mode(): # funktion för att starta övervakningen.
-    print("Övervakning är aktiv, tryck på \"Crtl+c\" för att återgå till menu") # tryck på valfri tangent för att återgå till menyn
-    logger.log("Övervakningsläge startat") # logga starten
-    try: # testkör nedanstående koden
-        while True: # loop för status kontroll för larm hanterare
-            monitor.check_status(alarm_manager)
-            time.sleep(5)
-    except KeyboardInterrupt:
-        pass # programmet fortsätter till if satsen. rad 77
+    mon = monitor
+    if  not mon.active:
+        print("Ingen övervakning är aktiv.") 
+    else:
+        print("Övervakning är aktiv, tryck på \"Crtl+c\" för att återgå till menu\n") # tryck på valfri tangent för att återgå till menyn
+        logger.log("Övervakningsläge startat") # logga starten
+        try: # testkör nedanstående koden
+            while True: # loop för status kontroll för larm hanterare
+                monitor.check_status(alarm_manager)
+                time.sleep(5)
+        except KeyboardInterrupt:
+            pass # programmet fortsätter till if satsen. rad 77
 
 def start_realtimemonitor(cpu_usage, mem_usage, disk_usage, bars=50): # funktion för ögonblicksbild av resursernas tillstånd.
     cpu_percent = (cpu_usage / 100.0) # kod för bar
