@@ -11,6 +11,7 @@ class Monitor: # vi skapar class men namnet Monitor
     def start_monitoring(self): # funktion som ska byta värdet på attributet till "True" denna måste köras minst en gång för att .active ska få värdet True
         self.active = True
         print("Övervakning startad.")
+        logformon.log("Övervakning startad.")
 
     def display_status(self): # funktion som visa statusen.
         if not self.active: # om self.active har värdet False kommer koden att köras.
@@ -25,6 +26,9 @@ class Monitor: # vi skapar class men namnet Monitor
             # {memory_info.percent} minnes användning i procent, {memory_info.used / (1024 ** 3):.2f} använt minne konverterad till GB .2f för utskrift med 2 st decimaler
             print(f"Minnesanvändning: {memory_info.percent}% ({memory_info.used / (1024 ** 3):.2f} GB of {memory_info.total / (1024 ** 3):.2f} GB used)")
             print(f"Diskanvändning: {disk_usage.percent}% ({disk_usage.used / (1024 ** 3):.2f} GB out of {disk_usage.total / (1024 ** 3):.2f} GB used)")
+
+            logformon.log(f"Användaren har hämtat ögonblicksbild av resusrsanvändningen:\nMätvärden\nCPU Användning: {cpu_usage}%\nMinnesanvändning: {memory_info.percent}% ({memory_info.used / (1024 ** 3):.2f} GB of {memory_info.total / (1024 ** 3):.2f} GB used)\nDiskanvändning: {disk_usage.percent}% ({disk_usage.used / (1024 ** 3):.2f} GB out of {disk_usage.total / (1024 ** 3):.2f} GB used)")
+            
         while True:
             user_input = input("Tryck endast på 'Enter' för att fortsätta: ")
             if user_input == "":

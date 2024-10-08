@@ -71,9 +71,9 @@ class AlarmManager:
                 print(f"Larm {category} {level}% borttaget.")
                 self.save_alarms()
             else:
-                print("Ogiltigt val, försök igen.")
+                print("\nOgiltigt val, försök igen.")
         except ValueError:
-            print("Felaktig input, försök igen.")
+            print("\nFelaktig input, försök igen.")
     
     def check_alarm(self, cpu, memory, disk):
         triggered = []
