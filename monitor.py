@@ -22,6 +22,15 @@ class Monitor: # vi skapar class men namnet Monitor
             # {memory_info.percent} minnes användning i procent, {memory_info.used / (1024 ** 3):.2f} använt minne konverterad till GB .2f för utskrift med 2 st decimaler
             print(f"Minnesanvändning: {memory_info.percent}% ({memory_info.used / (1024 ** 3):.2f} GB of {memory_info.total / (1024 ** 3):.2f} GB used)")
             print(f"Diskanvändning: {disk_usage.percent}% ({disk_usage.used / (1024 ** 3):.2f} GB out of {disk_usage.total / (1024 ** 3):.2f} GB used)")
+        while True:
+            user_input = input("Tryck endast på 'Enter' för att fortsätta: ")
+            if user_input == "":
+                print("Bekräftelse mottagen!")
+                break
+
+            else:
+                print("Du måste trycka på endast 'Enter'. Försök igen.")
+
 
     def check_status(self, alarm_manager): # metod som loopas i bakrunden som hämtar nya värden genom varje loop och dessa värden läses av larm hanteraren.
         cpu_usage = psutil.cpu_percent(interval=0)
