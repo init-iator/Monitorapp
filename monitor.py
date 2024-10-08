@@ -1,5 +1,8 @@
 # imoprt nödvändiga moduler
 import psutil
+from logger import Logger
+
+logformon = Logger()
 
 class Monitor: # vi skapar class men namnet Monitor
     def __init__(self): # __init__ är en inbyggd funktion som ska initiera objektet i en viss status, i denna fall vi -
@@ -30,7 +33,6 @@ class Monitor: # vi skapar class men namnet Monitor
 
             else:
                 print("Du måste trycka på endast 'Enter'. Försök igen.")
-
 
     def check_status(self, alarm_manager): # metod som loopas i bakrunden som hämtar nya värden genom varje loop och dessa värden läses av larm hanteraren.
         cpu_usage = psutil.cpu_percent(interval=0)

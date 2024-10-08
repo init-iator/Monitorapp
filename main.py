@@ -8,6 +8,7 @@ import psutil
 monitor = Monitor() # monitor variabeln refererar till Monitor classen i filen monitor.py
 alarm_manager = AlarmManager() # liknande här också
 logger = Logger() # även här.
+logger.log("Applikationen startad")
 
 def main_menu(): # funktion för menu val.
     while True: # loop för att komma tillbaka till menu i fall felaktig inmatning sker
@@ -22,6 +23,11 @@ def main_menu(): # funktion för menu val.
         print("0. Avsluta")
 
         choice = input("Välj ett alternativ: ") # inmatning med meddelande utskrift, kommer lagras i choice variabeln
+        
+        for i in choice:
+            i = int(choice)
+            if i >= 1 and i <= 7:
+                logger.log(f"Användaren har gjort val {i} från huvudmenun")
         
         if choice == '1': # if sats för anrop av gällande class eller funktion
             monitor.start_monitoring() # om choise motsavar 1 körs koden i start_monitor funktionen från filen monitor.py
@@ -46,9 +52,11 @@ def main_menu(): # funktion för menu val.
                 pass # kör koden vidare utan atta få felmeddelande
         elif choice == '0':# om valet är 0 -
             print("\nHejdå...\n") # denna meddelande visas i consollen och -
+            logger.log("Applikationen avslutad")
             break # programmet avslutas
         else: # hantering av felaktig inmanting
             print("Felaktigt val, försök igen.") # programmet fortsätter till if satsen. rad 77
+            logger.log("Användaren har gjort felaktig val")
             
 
 def start_monitoring_mode(): # funktion för att starta övervakningen.
