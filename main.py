@@ -2,7 +2,7 @@
 from monitor import Monitor
 from alarm import AlarmManager
 from logger import Logger
-import time
+import time, os
 import psutil
 
 monitor = Monitor() # monitor variabeln refererar till Monitor classen i filen monitor.py
@@ -47,7 +47,8 @@ def main_menu(): # funktion för menu val.
                     # vi skickar argument till funktionen start_realtimemonitor, argumenten skickar värden till motsvarande-
                     # parametrar i funktionen. argumenten är returnerade värden från psutil modulens motsavrande funktiner.
                     start_realtimemonitor(psutil.cpu_percent(), psutil.virtual_memory().percent, psutil.disk_usage("/").percent, 30)
-                    time.sleep(0.5) # vänta angiven tid innan loopen körs vidare.
+                    time.sleep(1) # vänta angiven tid innan loopen körs vidare.
+                    os.system("cls" if os.name == "nt" else "clear")
             except KeyboardInterrupt: # trigga exeption men hjälp av tangentbort avbrytning ctrl+c
                 pass # kör koden vidare utan atta få felmeddelande
         elif choice == '0':# om valet är 0 -
