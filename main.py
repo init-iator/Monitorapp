@@ -11,7 +11,7 @@ os.system("cls" if os.name == "nt" else "clear")
 
 def main_menu():
     while True:
-        print("\n*** Övervakningsapplikation ***")
+        print("\n*** Övervakningsapplikation ***\n")
         print("1. Starta övervakning")
         print("2. Lista aktiv övervakning")
         print("3. Skapa larm")
@@ -21,7 +21,7 @@ def main_menu():
         print("7. Realtidsövervakning (Prestanda)")
         print("0. Avsluta programmet")
 
-        choice = input("Välj ett alternativ: ")
+        choice = input("\nVälj ett alternativ: ")
 
         # Sanitering av inmatning
         if choice.isdigit():
@@ -52,7 +52,7 @@ def main_menu():
                                 psutil.disk_usage("/").percent,
                                 30
                             )
-                            time.sleep(1)
+                            time.sleep(0.6)
                             os.system("cls" if os.name == "nt" else "clear")
                     except KeyboardInterrupt:
                         os.system("cls" if os.name == "nt" else "clear")

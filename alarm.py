@@ -28,6 +28,7 @@ class AlarmManager:
                 os.system("cls" if os.name == "nt" else "clear")
                 print("\nÅtergår till huvudmenyn...")
                 time.sleep(0.4)
+                os.system("cls" if os.name == "nt" else "clear")
                 break  # Avbryt loopen och återgå till huvudmenyn
             
             if choice in ['1', '2', '3']:
@@ -74,19 +75,18 @@ class AlarmManager:
         os.system("cls" if os.name == "nt" else "clear")
         while True:
             try:
-                print("Lista: Lagrade larm.\n")
                 alarm_list = []
                 index = 1
-                # Lista larm och deras kategorier
+                print("Lista: Lagrade larm.\n")
                 for category in ["CPU", "Memory", "Disk"]:
                     for level in sorted(self.alarms[category]):
                         alarm_list.append((category, level))
                         print(f"{index}. {category} larm {level}%")
                         index += 1
                 if not alarm_list:
+                    os.system("cls" if os.name == "nt" else "clear")
                     print("Inga larm att ta bort.")
                     return  # Avsluta metoden om det inte finns några larm
-
 
                 choice = int(input("\nVälj ett larm att ta bort (ange siffra)\neller välj '0' för att återgå till huvudmenyn: "))
                 if 1 <= choice <= len(alarm_list):

@@ -1,5 +1,5 @@
 from logger import Logger
-import psutil, os
+import psutil, os, time
 
 logformon = Logger()
 
@@ -15,6 +15,8 @@ class Monitor:
             if user_input_start_mon == "":
                 os.system("cls" if os.name == "nt" else "clear")
                 print("\nBekräftelse mottagen! Återgår till huvudmenu...")
+                time.sleep(0.6)
+                os.system("cls" if os.name == "nt" else "clear")
                 break
             else:
                 print("Du måste trycka på endast 'Enter'. Försök igen.")
@@ -24,7 +26,7 @@ class Monitor:
     def display_status(self):
         if not self.active:
             os.system("cls" if os.name == "nt" else "clear")
-            print("Ingen övervakning är aktiv.")
+            print("Ingen övervakning är aktiv. Aktivera alternativ \"1\" från huvudmenyn först!")
         else:
             cpu_usage = psutil.cpu_percent(interval=0)
             memory_info = psutil.virtual_memory()
@@ -44,6 +46,8 @@ class Monitor:
             if user_input == "":
                 os.system("cls" if os.name == "nt" else "clear")
                 print("\nBekräftelse mottagen! Återgår till huvudmenu...")
+                time.sleep(0.6)
+                os.system("cls" if os.name == "nt" else "clear")
                 break
             else:
                 print("Du måste trycka på endast 'Enter'. Försök igen.")
