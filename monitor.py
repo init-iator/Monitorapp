@@ -10,12 +10,15 @@ class Monitor:
     def start_monitoring(self):
         self.active = True
         os.system("cls" if os.name == "nt" else "clear")
-        user_input_start_mon = input("Övervakning startad! Tryck 'Enter' för att återgå till huvudmenu")
-        if user_input_start_mon == "":
-            os.system("cls" if os.name == "nt" else "clear")
-            print("\nBekräftelse mottagen! Återgår till huvudmenu...")
-        else:
+        while True:
+            user_input_start_mon = input("Övervakning startad! Tryck 'Enter' för att återgå till huvudmenu ")
+            if user_input_start_mon == "":
+                os.system("cls" if os.name == "nt" else "clear")
+                print("\nBekräftelse mottagen! Återgår till huvudmenu...")
+                break
+            else:
                 print("Du måste trycka på endast 'Enter'. Försök igen.")
+
         logformon.log("Övervakning startad.")
 
     def display_status(self):

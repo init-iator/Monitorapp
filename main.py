@@ -34,6 +34,7 @@ def main_menu():
         elif choice == '2':
             monitor.display_status()
         elif choice == '3':
+            os.system("cls" if os.name == "nt" else "clear")
             alarm_manager.configure_alarm()
         elif choice == '4':
             alarm_manager.display_alarms()

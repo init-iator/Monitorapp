@@ -1,4 +1,4 @@
-import json
+import json, os, time
 from logger import Logger
 from email_alert import send_email_alert
 
@@ -10,6 +10,7 @@ class AlarmManager:
         
     def configure_alarm(self):
         while True:
+            #os.system("cls" if os.name == "nt" else "clear")
             print("\n1. CPU användning")
             print("2. Minnesanvändning")
             print("3. Diskanvändning")
@@ -18,13 +19,20 @@ class AlarmManager:
             choice = input("Välj larmtyp (1-3) eller 4 för att återgå: ")
 
             if choice == '4':
-                print("Återgår till huvudmenyn...")
+                os.system("cls" if os.name == "nt" else "clear")
+                print("\nÅtergår till huvudmenyn...")
+                time.sleep(0.4)
                 break  # Avbryt loopen och återgå till huvudmenyn
             
             if choice in ['1', '2', '3']:
                 while True:
-                    level = input("Ställ in nivå för alarm mellan 0-100: ")
-                    try:
+                    level = input("\nStäll in nivå för alarm mellan 0-100:\nEller '<' för att gå tillbaka\nVäntar på input: ")
+                    if level == "<":
+                        os.system("cls" if os.name == "nt" else "clear")
+                        print("Går tillbaka till val av larmtyp...")
+                        time.sleep(0.4)
+                        break  # Bryt loopen och gå tillbaka till val av larmtyp
+                    try:                        
                         level = int(level)
                         if 0 < level <= 100:
                             if choice == '1':
@@ -33,10 +41,9 @@ class AlarmManager:
                                 self.alarms["Memory"].append(level)
                             elif choice == '3':
                                 self.alarms["Disk"].append(level)
-
                             print(f"Larm satt till {level}%")
-                            self.save_alarms()  # Spara alarmet
-                            break  # Bryt loopen och återgå till valet av larmtyp
+                            self.save_alarms()
+                            break
                         else:
                             print("Felaktig nivå. Ange en siffra mellan 1-100.")
                     except ValueError:
