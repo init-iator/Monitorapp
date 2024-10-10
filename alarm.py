@@ -10,13 +10,19 @@ class AlarmManager:
         
     def configure_alarm(self):
         while True:
-            #os.system("cls" if os.name == "nt" else "clear")
             print("\n1. CPU användning")
             print("2. Minnesanvändning")
             print("3. Diskanvändning")
             print("4. Tillbaka till huvudmeny")
 
             choice = input("Välj larmtyp (1-3) eller 4 för att återgå: ")
+            for i in choice:
+                if choice == "1":
+                    i = "cpu"
+                elif choice == "2":
+                    i = "minnes"
+                elif choice == "3":
+                    i = "disk"
 
             if choice == '4':
                 os.system("cls" if os.name == "nt" else "clear")
@@ -26,7 +32,7 @@ class AlarmManager:
             
             if choice in ['1', '2', '3']:
                 while True:
-                    level = input("\nStäll in nivå för alarm mellan 0-100:\nEller '<' för att gå tillbaka\nVäntar på input: ")
+                    level = input(f"\nStäll in nivå för {i} alarm mellan 0-100:\nEller '<' för att gå tillbaka\nVäntar på input: ")
                     if level == "<":
                         os.system("cls" if os.name == "nt" else "clear")
                         print("Går tillbaka till val av larmtyp...")
@@ -41,47 +47,66 @@ class AlarmManager:
                                 self.alarms["Memory"].append(level)
                             elif choice == '3':
                                 self.alarms["Disk"].append(level)
-                            print(f"Larm satt till {level}%")
+                            os.system("cls" if os.name == "nt" else "clear")
+                            print(f"{i.capitalize()} larm satt till {level}%")
                             self.save_alarms()
                             break
                         else:
+                            os.system("cls" if os.name == "nt" else "clear")
                             print("Felaktig nivå. Ange en siffra mellan 1-100.")
                     except ValueError:
+                        os.system("cls" if os.name == "nt" else "clear")
                         print("Felaktig input. Ange en siffra mellan 1-100.")
             else:
+                os.system("cls" if os.name == "nt" else "clear")
                 print("Felaktigt val. Välj ett alternativ mellan 1 och 4.")
 
     def display_alarms(self):
+        os.system("cls" if os.name == "nt" else "clear")
+        print("Lista: lagrade larm.\n")
         for category in ["CPU", "Memory", "Disk"]:
             for level in sorted(self.alarms[category]):
                 print(f"{category} larm {level}%")
-        input("Tryck valfri tangent för att gå tillbaka till huvudmenyn.")
+        input("\nTryck 'Enter' för att gå tillbaka till huvudmenyn.")
+        os.system("cls" if os.name == "nt" else "clear")
 
     def remove_alarm(self):
-        alarm_list = []
-        index = 1
-        for category in ["CPU", "Memory", "Disk"]:
-            for level in sorted(self.alarms[category]):
-                alarm_list.append((category, level))
-                print(f"{index}. {category} larm {level}%")
-                index += 1
-                
-        if not alarm_list:
-            print("Inga larm att ta bort.")
-            return
+        os.system("cls" if os.name == "nt" else "clear")
+        while True:
+            try:
+                print("Lista: Lagrade larm.\n")
+                alarm_list = []
+                index = 1
+                # Lista larm och deras kategorier
+                for category in ["CPU", "Memory", "Disk"]:
+                    for level in sorted(self.alarms[category]):
+                        alarm_list.append((category, level))
+                        print(f"{index}. {category} larm {level}%")
+                        index += 1
+                if not alarm_list:
+                    print("Inga larm att ta bort.")
+                    return  # Avsluta metoden om det inte finns några larm
 
-        try:
-            choice = int(input("Välj ett larm att ta bort (siffra): "))
-            if 1 <= choice <= len(alarm_list):
-                category, level = alarm_list[choice - 1]
-                self.alarms[category].remove(level)
-                print(f"Larm {category} {level}% borttaget.")
-                self.save_alarms()
-            else:
-                print("\nOgiltigt val, försök igen.")
-        except ValueError:
-            print("\nFelaktig input, försök igen.")
-    
+
+                choice = int(input("\nVälj ett larm att ta bort (ange siffra)\neller välj '0' för att återgå till huvudmenyn: "))
+                if 1 <= choice <= len(alarm_list):
+                    category, level = alarm_list[choice - 1]
+                    self.alarms[category].remove(level)
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print(f"\nLarm {category} {level}% borttaget. Återgår till huvudmenyn...")
+                    self.save_alarms()
+                    break  # Avsluta loopen om larmet har tagits bort
+                elif choice == 0:
+                    os.system("cls" if os.name == "nt" else "clear")
+                    break
+                else:
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print("\nOgiltigt val, försök igen.")
+                    # Loopen kommer automatiskt gå vidare här
+            except ValueError:
+                os.system("cls" if os.name == "nt" else "clear")
+                print("\nFelaktig input, försök igen.")
+
     def check_alarm(self, cpu, memory, disk):
         triggered = []
         for level in sorted(self.alarms["CPU"], reverse=True):

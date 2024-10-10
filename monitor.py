@@ -23,6 +23,7 @@ class Monitor:
 
     def display_status(self):
         if not self.active:
+            os.system("cls" if os.name == "nt" else "clear")
             print("Ingen övervakning är aktiv.")
         else:
             cpu_usage = psutil.cpu_percent(interval=0)
