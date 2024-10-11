@@ -61,6 +61,7 @@ class AlarmManager:
                             os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
                             print(f"{i.capitalize()} larm satt till {level}%")  # Bekräftar larminställningen
                             self.save_alarms()  # Sparar aktuella larm
+                            alarmlogger.log(f"{i.capitalize()} larm är konfigurerat och satt till {level} %")
                             break
                         
                         else:
@@ -87,6 +88,7 @@ class AlarmManager:
         
         input("\nTryck 'Enter' för att gå tillbaka till huvudmenyn.")  # Väntar på användarinmatning
         os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
+        alarmlogger.log("Lista med lagrade larm har visats i skärmen")
 
     def remove_alarm(self):
         os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
@@ -120,6 +122,7 @@ class AlarmManager:
                     os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
                     print(f"\nLarm {category} {level}% borttaget. Återgår till huvudmenyn...")  # Bekräftar borttagning
                     self.save_alarms()  # Sparar ändrade larm
+                    alarmlogger.log(f"Larm för {category} {level} % är borttaget")
                     break
                 
                 elif choice == 0:  # Om användaren vill återgå
@@ -157,7 +160,7 @@ class AlarmManager:
         
         for message in triggered:  # Loopar igenom utlösta larm
             print(message)  # Visar varning på skärmen
-            alarmlogger.log(f"{message}")  # Loggar varningen
+            alarmlogger.log(f"Larm AKTIVERAD {message}")  # Loggar varningen
             #Logger.log(message)  # Loggar varningen med Logger
             #send_email_alert(message)  # Skickar e-postvarning
 
@@ -172,4 +175,5 @@ class AlarmManager:
             with open('alarms.json', 'r') as f:  
                 self.alarms = json.load(f)  # Laddar larm från fil
         except FileNotFoundError:  # Hantering av fel om filen inte finns
+            alarmlogger.log("Kunde inte ladda filen med lagrade larm")
             pass  # Inga åtgärder vid fil inte hittades
