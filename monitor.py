@@ -49,12 +49,12 @@ class Monitor:
             )  # Visar diskens användning
             logformon.log(  # Loggar ögonblicksbild av resursanvändning
                 f"Användaren har hämtat ögonblicksbild av resursanvändningen:\n"
-                f"Mätvärden\n"
-                f"CPU Användning: {cpu_usage}%\n"
-                f"Minnessanvändning: {memory_info.percent}% "
+                f"\t\t\t\t\t\tMätvärden:\n"
+                f"\t\t\t\t\t\tCPU Användning: {cpu_usage}%\n"
+                f"\t\t\t\t\t\tMinnessanvändning: {memory_info.percent}% "
                 f"({memory_info.used / (1024 ** 3):.2f} GB of "
                 f"{memory_info.total / (1024 ** 3):.2f} GB used)\n"
-                f"Diskanvändning: {disk_usage.percent}% "
+                f"\t\t\t\t\t\tDiskanvändning: {disk_usage.percent}% "
                 f"({disk_usage.used / (1024 ** 3):.2f} GB out of "
                 f"{disk_usage.total / (1024 ** 3):.2f} GB used)"
             )

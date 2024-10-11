@@ -50,6 +50,7 @@ def main_menu():
                     alarm_manager.remove_alarm()  # Ta bort ett larm
                 elif choice == 7:
                     os.system("cls" if os.name == "nt" else "clear")  # Rensa terminalfönstret
+                    logger.log("Läge för realtidsövervakning startad")
                     try:
                         while True:
                             # Kör realtidsövervakning för CPU, minne och disk
@@ -64,6 +65,7 @@ def main_menu():
                     except KeyboardInterrupt:
                         os.system("cls" if os.name == "nt" else "clear")  # Avsluta övervakningen vid Ctrl+C
                         print("Realtidsövervakning avslutad.")
+                        logger.log("Läge för realtidsövervakning avslutad")
                         pass
                 elif choice == 0:
                     os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
