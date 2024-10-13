@@ -1,24 +1,21 @@
-import json, os, time
-from logger import Logger
-from email_alert import send_email_alert
+# Usage example of this document
 
-import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+# flask==2.3.2
+# requests>=2.28.1
+# numpy==1.24.0
+# pandas>=1.5,<2.0
+# scikit-learn==1.2.2
 
+# or just without version spec
+# json
+# os
+# time
+# tkinter
+# datetime
 
-import tkinter as tk
-import psutil
-from monitor import Monitor
-from alarm import AlarmManager
+# pip install packages in virtual enviroment via this document
+# command: pip install -r requirements.txt
 
-import os
-import datetime
-
-from monitor import Monitor
-from alarm import AlarmManager
-from logger import Logger
-import time, os, psutil
-
-from logger import Logger
-import psutil, os, time
+# prject specific packages
+psutil
+sendgrid

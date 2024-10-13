@@ -70,7 +70,7 @@ def main_menu():
                 elif choice == 0:
                     os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
                     print("\nHejdå...\n")
-                    logger.log("Applikationen avslutad")  # Logga att applikationen avslutats
+                    logger.log("Applikationen avslutad")  # Logga att applikationen avslutats                                       
                     break  # Avsluta programmet
             else:
                 os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen vid felaktigt val
