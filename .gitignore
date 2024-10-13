@@ -6,3 +6,5 @@ zodl_monitor.py
 *.log
 Planering.txt
 ToDo.md
+utils.py
+.env

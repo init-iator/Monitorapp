@@ -161,8 +161,8 @@ class AlarmManager:
         for message in triggered:  # Loopar igenom utlösta larm
             print(message)  # Visar varning på skärmen
             alarmlogger.log(f"Larm AKTIVERAD {message}")  # Loggar varningen
-            #Logger.log(message)  # Loggar varningen med Logger
-            #send_email_alert(message)  # Skickar e-postvarning
+            send_email_alert(message)  # Skickar e-postvarning
+            #alarmlogger.log(message)  # Loggar varningen med Logger
 
     def save_alarms(self):
         # Öppnar (eller skapar) en fil för att spara larm

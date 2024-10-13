@@ -76,3 +76,21 @@ class Monitor:
         disk_usage = psutil.disk_usage('/').percent  # Hämtar aktuell disk-användning
         
         alarm_manager.check_alarm(cpu_usage, memory_usage, disk_usage)  # Kontrollerar larm med aktuella användningsvärden
+
+    def start_realtimemonitor(self, cpu_usage, mem_usage, disk_usage, bars=50):   
+        cpu_percent = (cpu_usage / 100.0)
+        cpu_bar = '█' * int(cpu_percent * bars) + '-' * (bars - int(cpu_percent * bars))  # Skapa CPU-användningsstapel
+        mem_procent = (mem_usage / 100.0)
+        mem_bar = '█' * int(mem_procent * bars) + '-' * (bars - int(mem_procent * bars))  # Skapa minnesanvändningsstapel
+        disk_percent = (disk_usage / 100.0)
+        disk_bar = '█' * int(disk_percent * bars) + '-' * (bars - int(disk_percent * bars))  # Skapa diskanvändningsstapel
+        # Visa användningsstaplarna
+        print(
+            f"\n\nCPU Usage:  |{cpu_bar}| {cpu_usage:.2f}%\n\n"
+            f"MEM Usage:  |{mem_bar}| {mem_usage:.2f}%\n\n"
+            f"DISK Usage: |{disk_bar}| {disk_usage:.2f}%"
+        )
+        print(
+            "\nPress \"Ctrl+c\" to interrupt the performance monitor & go back to headmenu: ", 
+            end="\n"
+            )

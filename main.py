@@ -54,12 +54,12 @@ def main_menu():
                     try:
                         while True:
                             # Kör realtidsövervakning för CPU, minne och disk
-                            start_realtimemonitor(
+                            monitor.start_realtimemonitor(
                                 psutil.cpu_percent(),
                                 psutil.virtual_memory().percent,
                                 psutil.disk_usage("/").percent,
                                 30
-                            )
+                                )
                             time.sleep(0.6)  # Vänta 0.6 sekunder mellan uppdateringar
                             os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
                     except KeyboardInterrupt:
@@ -100,25 +100,6 @@ def start_monitoring_mode():
             print("Övervakningsläge avslutad\n")
             logger.log("Övervakningsläge avslutad")  # Logga att övervakningsläget avslutats
             pass
-
-# Visa prestandadata (CPU, minne, disk) i realtid
-def start_realtimemonitor(cpu_usage, mem_usage, disk_usage, bars=50):
-    cpu_percent = (cpu_usage / 100.0)
-    cpu_bar = '█' * int(cpu_percent * bars) + '-' * (bars - int(cpu_percent * bars))  # Skapa CPU-användningsstapel
-    mem_procent = (mem_usage / 100.0)
-    mem_bar = '█' * int(mem_procent * bars) + '-' * (bars - int(mem_procent * bars))  # Skapa minnesanvändningsstapel
-    disk_percent = (disk_usage / 100.0)
-    disk_bar = '█' * int(disk_percent * bars) + '-' * (bars - int(disk_percent * bars))  # Skapa diskanvändningsstapel
-    # Visa användningsstaplarna
-    print(
-        f"\n\nCPU Usage:  |{cpu_bar}| {cpu_usage:.2f}%\n\n"
-        f"MEM Usage:  |{mem_bar}| {mem_usage:.2f}%\n\n"
-        f"DISK Usage: |{disk_bar}| {disk_usage:.2f}%"
-    )
-    print(
-        "\nPress \"Ctrl+c\" to interrupt the performance monitor & go back to headmenu: ", 
-        end="\n"
-        )
 
 # Kör programmet om det körs direkt
 if __name__ == "__main__":
