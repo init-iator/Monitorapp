@@ -1,7 +1,9 @@
 from logger import Logger  # Importerar Logger-klassen för loggning av händelser
+from textdecor import textdec
 import psutil, os, time  # Importerar nödvändiga bibliotek för systemövervakning och hantering
 
 logformon = Logger()  # Skapar en instans av Logger
+txd = textdec()
 
 class Monitor:
     def __init__(self):
@@ -91,6 +93,6 @@ class Monitor:
             f"DISK Usage: |{disk_bar}| {disk_usage:.2f}%"
         )
         print(
-            "\nPress \"Ctrl+c\" to interrupt the performance monitor & go back to headmenu: ", 
+            f"\nPress \"{txd.BLUE}Ctrl+c{txd.END}\" to interrupt the performance monitor & go back to headmenu: ", 
             end="\n"
             )

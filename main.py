@@ -1,12 +1,14 @@
 from monitor import Monitor
 from alarm import AlarmManager
 from logger import Logger
+from textdecor import textdec
 import time, os, psutil
 
 # Initiera övervakning, larmhantering och loggning
 monitor = Monitor()
 alarm_manager = AlarmManager()
 logger = Logger()
+txdec = textdec()
 
 # Logga att applikationen startas och rensa terminalfönstret
 logger.log("Applikationen startad")
@@ -16,18 +18,19 @@ os.system("cls" if os.name == "nt" else "clear")
 def main_menu():
     while True:
         # Visa menyalternativ
-        print("\n*** Övervakningsapplikation ***\n")
-        print("1. Starta övervakning")
-        print("2. Lista aktiv övervakning")
-        print("3. Skapa larm")
-        print("4. Visa larm")
-        print("5. Starta övervakningsläge")
-        print("6. Ta bort larm")
-        print("7. Realtidsövervakning (Prestanda)")
-        print("0. Avsluta programmet")
+        print(f"\n{txdec.GREEN}*** Övervakningsapplikation ***{txdec.END}\n")
+        print(f"{txdec.BLUE}1.{txdec.END} Starta övervakning")
+        print(f"{txdec.BLUE}2.{txdec.END} Lista aktiv övervakning")
+        print(f"{txdec.BLUE}3.{txdec.END} Skapa larm")
+        print(f"{txdec.BLUE}4.{txdec.END} Visa larm")
+        print(f"{txdec.BLUE}5.{txdec.END} Starta övervakningsläge")
+        print(f"{txdec.BLUE}6.{txdec.END} Ta bort larm")
+        print(f"{txdec.BLUE}7.{txdec.END} Realtidsövervakning (Prestanda)")
+        print(f"{txdec.RED}0.{txdec.END} Avsluta programmet")
 
         # Ta emot användarens val
-        choice = input("\nVälj ett alternativ: ")
+        choice = input(f"\nVälj ett alternativ: {txdec.YELLOW}")
+        print(txdec.END)
 
         if choice.isdigit():  # Kontrollera om valet är ett nummer
             choice = int(choice)
@@ -64,7 +67,7 @@ def main_menu():
                             os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
                     except KeyboardInterrupt:
                         os.system("cls" if os.name == "nt" else "clear")  # Avsluta övervakningen vid Ctrl+C
-                        print("Realtidsövervakning avslutad.")
+                        print(f"{txdec.YELLOW}Realtidsövervakning avslutad.{txdec.END}")
                         logger.log("Läge för realtidsövervakning avslutad")
                         pass
                 elif choice == 0:
@@ -74,11 +77,11 @@ def main_menu():
                     break  # Avsluta programmet
             else:
                 os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen vid felaktigt val
-                print("Felaktigt val, försök igen.")
+                print(f"{txdec.RED}Felaktigt val, försök igen.{txdec.END}")
                 logger.log("Användaren har gjort felaktig val")  # Logga felaktigt val
         else:
             os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen vid ogiltig inmatning
-            print("Ogiltig inmatning, vänligen ange ett nummer.")
+            print(f"{txdec.RED}Ogiltig inmatning, vänligen ange ett nummer.{txdec.END}")
             logger.log("Användaren har matat in ogiltig inmatning.")  # Logga ogiltig inmatning
 
 # Starta övervakningsläge om en övervakning är aktiv
