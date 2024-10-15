@@ -50,6 +50,7 @@ from tkinter import scrolledtext, messagebox, simpledialog
 from monitor import Monitor
 from alarm import AlarmManager
 from logger import Logger
+from test import ResourceMonitorApp
 import psutil
 import threading
 
@@ -71,19 +72,22 @@ class MonitoringApp:
         self.start_monitoring_btn = tk.Button(self.button_frame, text="1. Starta Övervakning", command=self.start_monitoring)
         self.start_monitoring_btn.pack(side=tk.LEFT, padx=5)
 
-        self.show_status_btn = tk.Button(self.button_frame, text="2. Visa Status", command=self.display_status)
+        self.show_status_btn = tk.Button(self.button_frame, text="2. Lista aktiv övervakning", command=self.display_status)
         self.show_status_btn.pack(side=tk.LEFT, padx=5)
 
-        self.configure_alarm_btn = tk.Button(self.button_frame, text="3. Konfigurera Larm", command=self.configure_alarm)
+        self.configure_alarm_btn = tk.Button(self.button_frame, text="3. Skapa larm", command=self.configure_alarm)
         self.configure_alarm_btn.pack(side=tk.LEFT, padx=5)
 
         self.show_alarms_btn = tk.Button(self.button_frame, text="4. Visa Larm", command=self.show_alarms)
         self.show_alarms_btn.pack(side=tk.LEFT, padx=5)
 
-        self.remove_alarm_btn = tk.Button(self.button_frame, text="5. Ta bort Larm", command=self.remove_alarm)
+        self.remove_alarm_btn = tk.Button(self.button_frame, text="5. Starta övervakningsläge", command=self.remove_alarm)
         self.remove_alarm_btn.pack(side=tk.LEFT, padx=5)
 
-        self.start_realtime_monitor_btn = tk.Button(self.button_frame, text="6. Starta Realtidsövervakning", command=self.start_realtime_monitor)
+        self.start_realtime_monitor_btn = tk.Button(self.button_frame, text="6. Ta bort larm", command=self.start_realtime_monitor)
+        self.start_realtime_monitor_btn.pack(side=tk.LEFT, padx=5)
+
+        self.start_realtime_monitor_btn = tk.Button(self.button_frame, text="7. Realtidsövervakning (Prestanda)", command=self.start_realtime_monitor)
         self.start_realtime_monitor_btn.pack(side=tk.LEFT, padx=5)
 
         self.quit_btn = tk.Button(self.button_frame, text="0. Avsluta", command=self.root.quit)
@@ -99,7 +103,7 @@ class MonitoringApp:
         self.log_text.insert(tk.END, "Övervakning startad.\n")
         self.log_text.see(tk.END)  # Scrolla till slutet
         monitor.active = True
-        threading.Thread(target=self.monitor_resources, daemon=True).start()
+        # threading.Thread(target=self.monitor_resources, daemon=True).start()
 
     def monitor_resources(self):
         """Övervaka resurser och logga status."""
@@ -179,6 +183,7 @@ class MonitoringApp:
         """Starta realtidsövervakning."""
         self.log_text.insert(tk.END, "Realtidsövervakning startad (ej implementerat).\n")
         self.log_text.see(tk.END)
+        ResourceMonitorApp(None)
         # Här kan du implementera realtidsövervakning med grafer, staplar etc.
 
 if __name__ == "__main__":
