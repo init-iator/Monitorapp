@@ -76,4 +76,3 @@ def create_or_update_env_file():
             f.write(f"SENDGRID_API_KEY={sendgrid_api_key}\n")
             f.write(f"RECIPIENT_EMAIL={recipient_email}\n")
             f.write(f"SENDER_EMAIL={sender_email}\n")
-            
