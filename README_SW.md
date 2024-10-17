@@ -14,8 +14,7 @@ os
 time
 Kloning av projektet:
 Bash
-git clone [https://github.com/](https://github.com/) ditt-användarnamn/övervakningsapplikation.git
-Använd koden med försiktighet.
+git clone https://github.com/init-iator/Monitorapp.git
 
 Skapa .env-fil: Kopiera filen .env.example till .env och fyll i dina SendGrid API-nyckel, mottagarens e-postadress och avsändarens e-postadress.
 Körning
@@ -23,7 +22,6 @@ Körning
 Starta applikationen:
 Bash
 python övervakningsapplikation.py
-Använd koden med försiktighet.
 
 Användning
 
