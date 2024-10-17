@@ -2,6 +2,7 @@ from monitor import Monitor
 from alarm import AlarmManager
 from logger import Logger
 from textdecor import textdec
+from email_alert import create_or_update_env_file
 import time, os, psutil
 
 # Initiera övervakning, larmhantering och loggning
@@ -26,6 +27,7 @@ def main_menu():
         print(f"{txdec.BLUE}5.{txdec.END} Starta övervakningsläge")
         print(f"{txdec.BLUE}6.{txdec.END} Ta bort larm")
         print(f"{txdec.BLUE}7.{txdec.END} Realtidsövervakning (Prestanda)")
+        print(f"{txdec.BLUE}8.{txdec.END} Kontrollera .env filen för email utskick")
         print(f"{txdec.RED}0.{txdec.END} Avsluta programmet")
 
         # Ta emot användarens val
@@ -34,7 +36,7 @@ def main_menu():
 
         if choice.isdigit():  # Kontrollera om valet är ett nummer
             choice = int(choice)
-            if choice >= 0 and choice <= 7:  # Kontrollera om valet är inom giltigt intervall
+            if choice >= 0 and choice <= 8:  # Kontrollera om valet är inom giltigt intervall
                 logger.log(f"Användaren har gjort val {choice} från huvudmenun")  # Logga valet
 
                 # Hantera olika val
@@ -70,9 +72,15 @@ def main_menu():
                         print(f"{txdec.YELLOW}Realtidsövervakning avslutad.{txdec.END}")
                         logger.log("Läge för realtidsövervakning avslutad")
                         pass
+                elif choice == 8:
+                    os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
+                    create_or_update_env_file()
+                    time.sleep(2)
+                    logger.log("Användaren har inspekterat kongifuration för e-post utskick")
+                    os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
                 elif choice == 0:
                     os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
-                    print("\nHejdå...\n")
+                    print(f"\n{txdec.BOLD}{txdec.CYAN}Hej-då................................{txdec.END}\n")
                     logger.log("Applikationen avslutad")  # Logga att applikationen avslutats                                       
                     break  # Avsluta programmet
             else:
