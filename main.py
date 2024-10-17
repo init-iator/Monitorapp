@@ -97,10 +97,10 @@ def start_monitoring_mode():
     mon = monitor
     if not mon.active:  # Kontrollera om övervakning är aktiv
         os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
-        print("Ingen övervakning är aktiv. Aktivera alternativ \"1\" från huvudmenyn först!")
+        print(f"{txdec.YELLOW}Ingen övervakning är aktiv. Aktivera alternativ \"1\" från huvudmenyn först!{txdec.END}")
     else:
         os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
-        print("Övervakningen är aktiv. Tryck på \"Ctrl+C\" för att återgå till huvudmenyn.\n")
+        print(f"{txdec.RED}Övervakningen är aktiv. Tryck på \"Ctrl+C\" för att återgå till huvudmenyn.\n{txdec.END}")
         logger.log("Övervakningsläge startat")  # Logga att övervakningsläget startat
         try:
             while True:
@@ -108,7 +108,7 @@ def start_monitoring_mode():
                 time.sleep(1)  # Vänta 1 sekund mellan kontroller
         except KeyboardInterrupt:
             os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen vid avbrott
-            print("Övervakningsläge avslutad\n")
+            print(f"{txdec.RED}Övervakningsläge avslutad\n{txdec.END}")
             logger.log("Övervakningsläge avslutad")  # Logga att övervakningsläget avslutats
             pass
 
