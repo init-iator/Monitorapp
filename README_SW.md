@@ -26,6 +26,7 @@
 <h3>Skapa .env-fil</h3>
 <p>
   Kopiera filen <code>.env.example</code> till <code>.env</code> och fyll i din SendGrid API-nyckel, mottagarens e-postadress och avsändarens e-postadress.
+  Det går också att skapa eller ändra <code>.env</code> filen via programmet. Menu val 8
 </p>
 
 <h2>Körning</h2>

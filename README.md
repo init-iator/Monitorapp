@@ -26,6 +26,7 @@
 <h3>Create .env File</h3>
 <p>
   Copy the <code>.env.example</code> file to <code>.env</code> and fill in your SendGrid API key, recipient email address, and sender email address.
+"It is also possible to create or modify the <code>.env</code> file via the application. Menu option 8."
 </p>
 
 <h2>Running</h2>
