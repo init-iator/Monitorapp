@@ -1,11 +1,9 @@
 # ignore cache map:
 /__pycache__
 # ignore experiment files:
-alarms.json
 zexperiment.py
 zodl_monitor.py
+alarms.json
 *.log
-Planering.txt
 ToDo.md
-utils.py
 .env
