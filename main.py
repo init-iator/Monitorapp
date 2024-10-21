@@ -63,7 +63,7 @@ def main_menu():
                                 psutil.cpu_percent(),
                                 psutil.virtual_memory().percent,
                                 psutil.disk_usage("/").percent,
-                                30
+                                30 # Argument för bars parametern
                                 )
                             time.sleep(0.6)  # Vänta 0.6 sekunder mellan uppdateringar
                             os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen

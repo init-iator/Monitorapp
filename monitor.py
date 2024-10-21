@@ -13,22 +13,24 @@ class Monitor:
         self.active = True  # Sätter monitorering till aktiv
         os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
         while True:
-            user_input_start_mon = input("Övervakning startad! Tryck 'Enter' för att återgå till huvudmenu ")
+            user_input_start_mon = input(f"{txd.YELLOW}Övervakning startad! Tryck '{txd.BLUE}Enter{txd.END}{txd.YELLOW}' för att återgå till huvudmenu{txd.END}")
             if user_input_start_mon == "":
                 os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                print("\nBekräftelse mottagen! Återgår till huvudmenu...")  # Bekräftar återgång
+                print(f"\n{txd.CYAN}Bekräftelse mottagen! Återgår till huvudmenu...{txd.END}")  # Bekräftar återgång
                 time.sleep(0.6)  # Väntar en kort stund
                 os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen igen
                 break  # Avslutar loopen
             else:
-                print("Du måste trycka på endast 'Enter'. Försök igen.")  # Använder felaktig inmatning
+                print(f"{txd.RED}Du måste trycka på endast '{txd.BLUE}Enter{txd.END}"
+                      f"{txd.RED}' Försök igen.{txd.RED}")  # Använder felaktig inmatning
 
         logformon.log("Övervakning startad.")  # Loggar att övervakningen har startat
 
     def display_status(self):
         if not self.active:
             os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-            print("Ingen övervakning är aktiv. Aktivera alternativ \"1\" från huvudmenyn först!")  # Meddelande om inaktiv monitorering
+            print(f"{txd.YELLOW}Ingen övervakning är aktiv. Aktivera alternativ \"{txd.BLUE}"
+                  f"1{txd.END}{txd.YELLOW}\" från huvudmenyn först!{txd.END}")  # Meddelande om inaktiv monitorering
         else:
             cpu_usage = psutil.cpu_percent(interval=0)  # Hämtar CPU-användning
             memory_info = psutil.virtual_memory()  # Hämtar minnesinformation
@@ -36,19 +38,17 @@ class Monitor:
             
             os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
 
-            print("Snapshot av resurs användningen:")  # Rubrik för resursanvändning
-            print(f"CPU Användning:\t\t{cpu_usage}%")  # Visar CPU-användning
-            print(
-                f"Minnesanvändning:\t{memory_info.percent}% "
-                f"({memory_info.used / (1024 ** 3):.2f} GB of "
-                f"{memory_info.total / (1024 ** 3):.2f} GB used)"
-            )  # Visar minnesanvändning
-            print(
-                f"Diskanvändning:\t\t{disk_usage.percent}% "
-                f"({disk_usage.used / (1024 ** 3):.2f} GB out of "
-                f"{disk_usage.total / (1024 ** 3):.2f} GB used)",
-                end="\n\n"
-            )  # Visar diskens användning
+            print(f"{txd.BOLD}{txd.BLUE}Snapshot av resurs användningen:{txd.END}")  # Rubrik för resursanvändning
+            print(f"CPU Användning:\t\t{txd.BLUE}{cpu_usage}{txd.END} %")  # Visar CPU-användning
+            print(f"Minnesanvändning:\t{txd.BLUE}{memory_info.percent}{txd.END} % "
+                  f"({memory_info.used / (1024 ** 3):.2f} GB of "
+                  f"{memory_info.total / (1024 ** 3):.2f} GB used)"
+                  )  # Visar minnesanvändning
+            print(f"Diskanvändning:\t\t{txd.BLUE}{disk_usage.percent}{txd.END} % "
+                  f"({disk_usage.used / (1024 ** 3):.2f} GB out of "
+                  f"{disk_usage.total / (1024 ** 3):.2f} GB used)",
+                  end="\n\n"
+                  )  # Visar diskens användning
             logformon.log(  # Loggar ögonblicksbild av resursanvändning
                 f"Användaren har hämtat ögonblicksbild av resursanvändningen:\n"
                 f"\t\t\t\t\t\tMätvärden:\n"
@@ -62,15 +62,17 @@ class Monitor:
             )
             
         while True:
-            user_input = input("Tryck endast på 'Enter' för att fortsätta: ")  # Väntar på användarinmatning
+            user_input = input(f"{txd.YELLOW}Tryck endast på '{txd.BLUE}Enter{txd.END}"
+                               f"{txd.YELLOW}' för att fortsätta: {txd.END}")  # Väntar på användarinmatning
             if user_input == "":
                 os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                print("\nBekräftelse mottagen! Återgår till huvudmenu...")  # Bekräftar återgång
+                print(f"\n{txd.CYAN}Bekräftelse mottagen! Återgår till huvudmenu...{txd.END}")  # Bekräftar återgång
                 time.sleep(0.6)  # Väntar en kort stund
                 os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen igen
                 break  # Avslutar loopen
             else:
-                print("Du måste trycka på endast 'Enter'. Försök igen.")  # Meddelande om felaktig inmatning
+                print(f"{txd.RED}Du måste trycka på endast '{txd.BLUE}Enter{txd.END}"
+                      f"{txd.RED}' Försök igen.{txd.RED}")  # Använder felaktig inmatning
 
     def check_status(self, alarm_manager):
         cpu_usage = psutil.cpu_percent(interval=0)  # Hämtar aktuell CPU-användning
@@ -93,6 +95,6 @@ class Monitor:
             f"DISK Usage: |{disk_bar}| {disk_usage:.2f}%"
         )
         print(
-            f"\nPress \"{txd.BLUE}Ctrl+c{txd.END}\" to interrupt the performance monitor & go back to headmenu: ", 
+            f"\n{txd.YELLOW}Tryck \'{txd.BLUE}Ctrl+c{txd.END}{txd.YELLOW}\' för att avbryta prestandaövervakningen och gå tillbaka till huvudmenyn: {txd.END}", 
             end="\n"
             )
