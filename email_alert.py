@@ -52,7 +52,7 @@ def create_or_update_env_file():
         if confirm.lower() == "ja":
             print(f"{txd.BOLD}{txd.YELLOW}.env-filen har lästs in.{txd.END}{txd.END}")
 
-        elif confirm.lower() != "ja":
+        elif confirm.lower() == "nej":
             
             # Om användaren svarar nej, prompt för nya värden
             sendgrid_api_key = input("Ange SendGrid API-nyckel: ")
@@ -64,6 +64,11 @@ def create_or_update_env_file():
             set_key(dotenv_path, "RECIPIENT_EMAIL", recipient_email)
             set_key(dotenv_path, "SENDER_EMAIL", sender_email)
             print(f"{txd.BOLD}{txd.YELLOW}.env-filen har uppdaterats. {txd.RED}STARTA OM PROGRAMMET!{txd.END}{txd.END}{txd.END}")
+        else:
+            os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen vid felaktigt val
+            print(f"{txd.YELLOW}Felaktigt val, skriv {txd.GREEN}ja{txd.END}"
+                  f"{txd.YELLOW} eller {txd.RED}nej{txd.END}{txd.YELLOW}.{txd.END}")
+            create_or_update_env_file()
     else:
         # .env-fil hittades inte, skapa en ny
         print(f"{txd.BOLD}{txd.YELLOW}.env-fil hittades inte, skapa en ny{txd.END}{txd.END}")

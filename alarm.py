@@ -1,8 +1,10 @@
 import json, os, time  # Importerar nödvändiga bibliotek för JSON-hantering, systemkommandon och tidskontroll
 from logger import Logger  # Importerar Logger-klassen för loggning av händelser
 from email_alert import send_email_alert  # Importerar funktionen för att skicka e-postalarmer
+from textdecor import textdec
 
 alarmlogger = Logger()  # Skapar en instans av Logger
+txd = textdec()
 
 class AlarmManager:
     def __init__(self):
@@ -10,83 +12,153 @@ class AlarmManager:
         self.alarms = {"CPU": [], "Memory": [], "Disk": []}
         self.load_alarms()  # Laddar befintliga larm från fil
 
+    # def configure_alarm(self):
+    #     while True:
+    #         # Visar alternativ för larmkonfiguration
+    #         print(f"\n{txd.BLUE}1.{txd.END} CPU användning")
+    #         print(f"{txd.BLUE}2.{txd.END} Minnesanvändning")
+    #         print(f"{txd.BLUE}3.{txd.END} Diskanvändning")
+    #         print(f"{txd.RED}4.{txd.END} Tillbaka till huvudmeny")
+
+    #         choice = input("Välj larmtyp (1-3) eller 4 för att återgå: ")  # Tar emot användarens val
+
+    #         # Loopar igenom val för att bestämma vilken typ av larm som konfigureras
+    #         for i in choice:
+    #             if choice == "1":
+    #                 i = "cpu"  # Sätter i till "cpu" för CPU-larm
+    #             elif choice == "2":
+    #                 i = "minnes"  # Sätter i till "minnes" för minneslarm
+    #             elif choice == "3":
+    #                 i = "disk"  # Sätter i till "disk" för disklarm
+
+    #         if choice == '4':  # Om användaren vill återgå
+    #             os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
+    #             print(f"\n{txd.CYAN}Återgår till huvudmenyn...{txd.END}")  # Bekräftar återgång
+    #             time.sleep(0.4)  # Väntar en kort stund
+    #             os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen igen
+    #             break
+            
+    #         if choice in ['1', '2', '3']:  # Om valet är giltigt
+    #             while True:
+    #                 # Ber användaren att ställa in larmnivå
+    #                 level = input(f"\nStäll in nivå för {i} alarm mellan 0-100:\nEller '{txd.BLUE}<{txd.END}' för att gå tillbaka\nVäntar på input: ")
+                    
+    #                 if level == "<":  # Om användaren vill gå tillbaka
+    #                     os.system("cls" if os.name == "nt" else "clear")
+    #                     print(f"{txd.GREEN}Tillbaka till val av larmtyp...{txd.END}")  # Bekräftar återgång
+    #                     time.sleep(0.4)  # Väntar en kort stund
+    #                     break
+
+    #                 try:
+    #                     level = int(level)  # Konverterar inmatningen till ett heltal
+                        
+    #                     if 0 < level <= 100:  # Kontrollerar att nivån är inom det giltiga intervallet
+    #                         if choice == '1':
+    #                             self.alarms["CPU"].append(level)  # Lägger till larmnivå för CPU
+    #                         elif choice == '2':
+    #                             self.alarms["Memory"].append(level)  # Lägger till larmnivå för minne
+    #                         elif choice == '3':
+    #                             self.alarms["Disk"].append(level)  # Lägger till larmnivå för disk
+                            
+    #                         os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
+    #                         print(f"{i.capitalize()} larm satt till {txd.GREEN}{level}%{txd.END}")  # Bekräftar larminställningen
+    #                         self.save_alarms()  # Sparar aktuella larm
+    #                         alarmlogger.log(f"{i.capitalize()} larm är konfigurerat och satt till {level} %")
+    #                         break
+                        
+    #                     else:
+    #                         os.system("cls" if os.name == "nt" else "clear")
+    #                         print(f"{txd.RED}Felaktig nivå.{txd.END} {txd.YELLOW}Ange en siffra mellan 1-100.{txd.END}")  # Felmeddelande
+
+    #                 except ValueError:
+    #                     os.system("cls" if os.name == "nt" else "clear")
+    #                     print(f"{txd.RED}Felaktig input.{txd.END} {txd.YELLOW}Ange en siffra mellan 1-100.{txd.END}")  # Felmeddelande för ogiltig inmatning
+
+    #         else:
+    #             os.system("cls" if os.name == "nt" else "clear")
+    #             print(f"{txd.RED}Felaktigt val. Välj ett alternativ mellan 1 och 4.{txd.END}")  # Felmeddelande för ogiltigt val
+
+
     def configure_alarm(self):
         while True:
             # Visar alternativ för larmkonfiguration
-            print("\n1. CPU användning")
-            print("2. Minnesanvändning")
-            print("3. Diskanvändning")
-            print("4. Tillbaka till huvudmeny")
+            print(f"\n{txd.BLUE}1.{txd.END} CPU användning")
+            print(f"{txd.BLUE}2.{txd.END} Minnesanvändning")
+            print(f"{txd.BLUE}3.{txd.END} Diskanvändning")
+            print(f"{txd.RED}4.{txd.END} Tillbaka till huvudmeny")
 
             choice = input("Välj larmtyp (1-3) eller 4 för att återgå: ")  # Tar emot användarens val
 
-            # Loopar igenom val för att bestämma vilken typ av larm som konfigureras
-            for i in choice:
-                if choice == "1":
-                    i = "cpu"  # Sätter i till "cpu" för CPU-larm
-                elif choice == "2":
-                    i = "minnes"  # Sätter i till "minnes" för minneslarm
-                elif choice == "3":
-                    i = "disk"  # Sätter i till "disk" för disklarm
-
-            if choice == '4':  # Om användaren vill återgå
+            # Bestäm vilken kategori som valdes
+            if choice == "1":
+                category = "CPU"
+            elif choice == "2":
+                category = "Memory"
+            elif choice == "3":
+                category = "Disk"
+            elif choice == "4":  # Om användaren vill återgå
                 os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                print("\nÅtergår till huvudmenyn...")  # Bekräftar återgång
+                print(f"\n{txd.CYAN}Återgår till huvudmenyn...{txd.END}")  # Bekräftar återgång
                 time.sleep(0.4)  # Väntar en kort stund
                 os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen igen
                 break
-            
-            if choice in ['1', '2', '3']:  # Om valet är giltigt
-                while True:
-                    # Ber användaren att ställa in larmnivå
-                    level = input(f"\nStäll in nivå för {i} alarm mellan 0-100:\nEller '<' för att gå tillbaka\nVäntar på input: ")
-                    
-                    if level == "<":  # Om användaren vill gå tillbaka
-                        os.system("cls" if os.name == "nt" else "clear")
-                        print("Går tillbaka till val av larmtyp...")  # Bekräftar återgång
-                        time.sleep(0.4)  # Väntar en kort stund
-                        break
-
-                    try:
-                        level = int(level)  # Konverterar inmatningen till ett heltal
-                        
-                        if 0 < level <= 100:  # Kontrollerar att nivån är inom det giltiga intervallet
-                            if choice == '1':
-                                self.alarms["CPU"].append(level)  # Lägger till larmnivå för CPU
-                            elif choice == '2':
-                                self.alarms["Memory"].append(level)  # Lägger till larmnivå för minne
-                            elif choice == '3':
-                                self.alarms["Disk"].append(level)  # Lägger till larmnivå för disk
-                            
-                            os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                            print(f"{i.capitalize()} larm satt till {level}%")  # Bekräftar larminställningen
-                            self.save_alarms()  # Sparar aktuella larm
-                            alarmlogger.log(f"{i.capitalize()} larm är konfigurerat och satt till {level} %")
-                            break
-                        
-                        else:
-                            os.system("cls" if os.name == "nt" else "clear")
-                            print("Felaktig nivå. Ange en siffra mellan 1-100.")  # Felmeddelande
-
-                    except ValueError:
-                        os.system("cls" if os.name == "nt" else "clear")
-                        print("Felaktig input. Ange en siffra mellan 1-100.")  # Felmeddelande för ogiltig inmatning
-
             else:
                 os.system("cls" if os.name == "nt" else "clear")
-                print("Felaktigt val. Välj ett alternativ mellan 1 och 4.")  # Felmeddelande för ogiltigt val
+                print(f"{txd.RED}Felaktigt val. Välj ett alternativ mellan 1 och 4.{txd.END}")  # Felmeddelande för ogiltigt val
+                continue
+
+            # Om valet är giltigt
+            while True:
+                # Ber användaren att ställa in larmnivå
+                level = input(f"{txd.YELLOW}\nStäll in nivå för {txd.RED}{category}"
+                              f"{txd.END}{txd.YELLOW} alarm mellan 0-100:\nEller '{txd.BLUE}<{txd.END}"
+                              f"{txd.YELLOW}' för att gå tillbaka{txd.END}\nVäntar på input: ")
+
+                if level == "<":  # Om användaren vill gå tillbaka
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print(f"{txd.GREEN}Tillbaka till val av larmtyp...{txd.END}")  # Bekräftar återgång
+                    time.sleep(0.4)  # Väntar en kort stund
+                    break
+
+                try:
+                    level = int(level)  # Konverterar inmatningen till ett heltal
+
+                    if 0 < level <= 100:  # Kontrollerar att nivån är inom det giltiga intervallet
+                        # Kolla om nivån redan finns i den valda kategorin
+                        if level in self.alarms[category]:
+                            os.system("cls" if os.name == "nt" else "clear")
+                            print(f"{txd.RED}{category}-larm på {level}% finns redan!{txd.END}")
+                            print(f"Befintliga {category}-larm: {self.alarms[category]}")  # Visar existerande värden
+                        else:
+                            self.alarms[category].append(level)  # Lägger till larmnivån om den inte redan finns
+                            os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
+                            print(f"{txd.YELLOW}{category.capitalize()} larm satt till{txd.END} {txd.GREEN}{level}%{txd.END}")  # Bekräftar larminställningen
+                            self.save_alarms()  # Sparar aktuella larm
+                            alarmlogger.log(f"{category.capitalize()} larm är konfigurerat och satt till {level} %")
+                            break
+
+                    else:
+                        os.system("cls" if os.name == "nt" else "clear")
+                        print(f"{txd.RED}Felaktig nivå.{txd.END} {txd.YELLOW}Ange en siffra mellan 1-100.{txd.END}")  # Felmeddelande
+
+                except ValueError:
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print(f"{txd.RED}Felaktig input.{txd.END} {txd.YELLOW}Ange en siffra mellan 1-100.{txd.END}")  # Felmeddelande för ogiltig inmatning
+
+
+
 
     def display_alarms(self):
         os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
         
         # Visar en lista över lagrade larm
-        print("Lista: lagrade larm.\n")  
+        print(f"{txd.GREEN}Lista: lagrade larm.\n{txd.END}")  
         
         for category in ["CPU", "Memory", "Disk"]:  # Loopar igenom larmkategorier
             for level in sorted(self.alarms[category]):  # Sorterar och visar larmnivåer
-                print(f"{category} larm {level}%")
+                print(f"{category}\tlarm\t{level}%")
         
-        input("\nTryck 'Enter' för att gå tillbaka till huvudmenyn.")  # Väntar på användarinmatning
+        input(f"{txd.YELLOW}\nTryck '{txd.BLUE}Enter{txd.END}{txd.YELLOW}' för att återgå till huvudmenu{txd.END} ") # Väntar på användarinmatning
         os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
         alarmlogger.log("Lista med lagrade larm har visats i skärmen")
 
@@ -99,28 +171,29 @@ class AlarmManager:
                 index = 1  # Räknare för larm
                 
                 # Visar en lista över lagrade larm
-                print("Lista: Lagrade larm.\n")  
+                print(f"{txd.YELLOW}Lista: Lagrade larm.\n{txd.END}")  
                 
                 for category in ["CPU", "Memory", "Disk"]:  # Loopar igenom larmkategorier
                     for level in sorted(self.alarms[category]):  # Sorterar och visar larmnivåer
                         alarm_list.append((category, level))  # Lägger till larm i listan
-                        print(f"{index}. {category} larm {level}%")  # Visar larm med index
+                        print(f"{txd.BLUE}{index}.{txd.END}\t{category}\tlarm\t{level}%")  # Visar larm med index
                         index += 1
                 
                 if not alarm_list:  # Om inga larm finns
                     os.system("cls" if os.name == "nt" else "clear")
-                    print("Inga larm att ta bort.")  # Meddelande om tom larmlista
+                    print(f"{txd.YELLOW}Inga larm att ta bort.{txd.END}")  # Meddelande om tom larmlista
                     return
 
                 # Tar emot användarens val för vilket larm som ska tas bort
-                choice = int(input("\nVälj ett larm att ta bort (ange siffra)\neller välj '0' för att återgå till huvudmenyn: "))  
+                choice = int(input(f"{txd.YELLOW}\nVälj ett larm att ta bort (ange siffra)\neller välj '{txd.BLUE}0{txd.END}"
+                                   f"{txd.YELLOW}' för att återgå till huvudmenyn: {txd.END}"))  
                 
                 if 1 <= choice <= len(alarm_list):  # Kontrollerar giltigt val
                     category, level = alarm_list[choice - 1]  # Hämta larmkategori och nivå
                     self.alarms[category].remove(level)  # Tar bort larm från kategorin
                     
                     os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                    print(f"\nLarm {category} {level}% borttaget. Återgår till huvudmenyn...")  # Bekräftar borttagning
+                    print(f"{txd.YELLOW}\nLarm {category} {level}% borttaget. Återgår till huvudmenyn...{txd.END}")  # Bekräftar borttagning
                     self.save_alarms()  # Sparar ändrade larm
                     alarmlogger.log(f"Larm för {category} {level} % är borttaget")
                     break
@@ -131,11 +204,11 @@ class AlarmManager:
                 
                 else:
                     os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                    print("\nOgiltigt val, försök igen.")  # Felmeddelande
+                    print(f"\n{txd.RED}Ogiltigt val, försök igen.{txd.END}")  # Felmeddelande
 
             except ValueError:  # Hantering av ogiltig inmatning
                 os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                print("\nFelaktig input, försök igen.")  # Felmeddelande
+                print(f"\n{txd.RED}Felaktig input, försök igen.{txd.END}")  # Felmeddelande
 
     def check_alarm(self, cpu, memory, disk):
         triggered = []  # Lista för att lagra utlösta larm

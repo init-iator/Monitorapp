@@ -97,7 +97,8 @@ def start_monitoring_mode():
     mon = monitor
     if not mon.active:  # Kontrollera om övervakning är aktiv
         os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
-        print(f"{txdec.YELLOW}Ingen övervakning är aktiv. Aktivera alternativ \"1\" från huvudmenyn först!{txdec.END}")
+        print(f"{txdec.YELLOW}Ingen övervakning är aktiv. Aktivera alternativ \'{txdec.BLUE}1{txdec.END}"
+              f"{txdec.YELLOW}\' från huvudmenyn först!{txdec.END}")
     else:
         os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
         print(f"{txdec.RED}Övervakningen är aktiv. Tryck på \"Ctrl+C\" för att återgå till huvudmenyn.\n{txdec.END}")

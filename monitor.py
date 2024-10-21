@@ -13,7 +13,7 @@ class Monitor:
         self.active = True  # Sätter monitorering till aktiv
         os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
         while True:
-            user_input_start_mon = input(f"{txd.YELLOW}Övervakning startad! Tryck '{txd.BLUE}Enter{txd.END}{txd.YELLOW}' för att återgå till huvudmenu{txd.END}")
+            user_input_start_mon = input(f"{txd.YELLOW}Övervakning startad! Tryck '{txd.BLUE}Enter{txd.END}{txd.YELLOW}' för att återgå till huvudmenu {txd.END}")
             if user_input_start_mon == "":
                 os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
                 print(f"\n{txd.CYAN}Bekräftelse mottagen! Återgår till huvudmenu...{txd.END}")  # Bekräftar återgång
