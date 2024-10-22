@@ -41,20 +41,20 @@ def main_menu():
 
                 # Hantera olika val
                 if choice == 1:
-                    monitor.start_monitoring()  # Starta övervakning
+                    monitor.start_monitoring()
                 elif choice == 2:
-                    monitor.display_status()  # Visa status på aktiv övervakning
+                    monitor.display_status()
                 elif choice == 3:
-                    os.system("cls" if os.name == "nt" else "clear")  # Rensa terminalfönstret
-                    alarm_manager.configure_alarm()  # Konfigurera ett nytt larm
+                    os.system("cls" if os.name == "nt" else "clear")
+                    alarm_manager.configure_alarm()
                 elif choice == 4:
-                    alarm_manager.display_alarms()  # Visa befintliga larm
+                    alarm_manager.display_alarms()
                 elif choice == 5:
-                    start_monitoring_mode()  # Starta övervakningsläge
+                    start_monitoring_mode()
                 elif choice == 6:
-                    alarm_manager.remove_alarm()  # Ta bort ett larm
+                    alarm_manager.remove_alarm()
                 elif choice == 7:
-                    os.system("cls" if os.name == "nt" else "clear")  # Rensa terminalfönstret
+                    os.system("cls" if os.name == "nt" else "clear")
                     logger.log("Läge för realtidsövervakning startad")
                     try:
                         while True:
@@ -65,51 +65,51 @@ def main_menu():
                                 psutil.disk_usage("/").percent,
                                 30 # Argument för bars parametern
                                 )
-                            time.sleep(0.6)  # Vänta 0.6 sekunder mellan uppdateringar
-                            os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
+                            time.sleep(0.6)
+                            os.system("cls" if os.name == "nt" else "clear")
                     except KeyboardInterrupt:
-                        os.system("cls" if os.name == "nt" else "clear")  # Avsluta övervakningen vid Ctrl+C
+                        os.system("cls" if os.name == "nt" else "clear")
                         print(f"{txdec.YELLOW}Realtidsövervakning avslutad.{txdec.END}")
                         logger.log("Läge för realtidsövervakning avslutad")
                         pass
                 elif choice == 8:
-                    os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
+                    os.system("cls" if os.name == "nt" else "clear")
                     create_or_update_env_file()
                     time.sleep(2)
                     logger.log("Användaren har inspekterat kongifuration för e-post utskick")
-                    os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
+                    os.system("cls" if os.name == "nt" else "clear")
                 elif choice == 0:
-                    os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
+                    os.system("cls" if os.name == "nt" else "clear")
                     print(f"\n{txdec.BOLD}{txdec.CYAN}Hej-då................................{txdec.END}\n")
-                    logger.log("Applikationen avslutad")  # Logga att applikationen avslutats                                       
-                    break  # Avsluta programmet
+                    logger.log("Applikationen avslutad")
+                    break
             else:
-                os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen vid felaktigt val
+                os.system("cls" if os.name == "nt" else "clear")
                 print(f"{txdec.RED}Felaktigt val, försök igen.{txdec.END}")
-                logger.log("Användaren har gjort felaktig val")  # Logga felaktigt val
+                logger.log("Användaren har gjort felaktig val")
         else:
-            os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen vid ogiltig inmatning
+            os.system("cls" if os.name == "nt" else "clear")
             print(f"{txdec.RED}Ogiltig inmatning, vänligen ange ett nummer.{txdec.END}")
-            logger.log("Användaren har matat in ogiltig inmatning.")  # Logga ogiltig inmatning
+            logger.log("Användaren har matat in ogiltig inmatning.")
 
 def start_monitoring_mode():
     mon = monitor
     if not mon.active:  # Kontrollera om övervakning är aktiv
-        os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
+        os.system("cls" if os.name == "nt" else "clear")
         print(f"{txdec.YELLOW}Ingen övervakning är aktiv. Aktivera alternativ \'{txdec.BLUE}1{txdec.END}"
               f"{txdec.YELLOW}\' från huvudmenyn först!{txdec.END}")
     else:
-        os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen
+        os.system("cls" if os.name == "nt" else "clear")
         print(f"{txdec.RED}Övervakningen är aktiv. Tryck på \"Ctrl+C\" för att återgå till huvudmenyn.\n{txdec.END}")
-        logger.log("Övervakningsläge startat")  # Logga att övervakningsläget startat
+        logger.log("Övervakningsläge startat")
         try:
             while True:
-                monitor.check_status(alarm_manager)  # Kontrollera status på övervakningen
-                time.sleep(1)  # Vänta 1 sekund mellan kontroller
+                monitor.check_status(alarm_manager)
+                time.sleep(1)
         except KeyboardInterrupt:
-            os.system("cls" if os.name == "nt" else "clear")  # Rensa skärmen vid avbrott
+            os.system("cls" if os.name == "nt" else "clear")
             print(f"{txdec.RED}Övervakningsläge avslutad\n{txdec.END}")
-            logger.log("Övervakningsläge avslutad")  # Logga att övervakningsläget avslutats
+            logger.log("Övervakningsläge avslutad")
             pass
 
 if __name__ == "__main__":
