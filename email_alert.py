@@ -37,9 +37,6 @@ def send_email_alert(message):
         email_logger.log(f"Misslyckades med att skicka e-post:\t|{str(e)}|")
 
 def create_or_update_env_file():
-    """
-    Prompts the user to create or update a .env file.
-    """
 
     dotenv_path = find_dotenv()
 
