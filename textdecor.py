@@ -1,3 +1,4 @@
+# ANSI color codes in Python for easy usage
 class textdec:
     BGWHITE = '\033[107m'
     BGCYAN = '\033[106m'

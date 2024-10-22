@@ -15,7 +15,6 @@ txdec = textdec()
 logger.log("Applikationen startad")
 os.system("cls" if os.name == "nt" else "clear")
 
-# Huvudmenyn för applikationen
 def main_menu():
     while True:
         # Visa menyalternativ
@@ -37,7 +36,8 @@ def main_menu():
         if choice.isdigit():  # Kontrollera om valet är ett nummer
             choice = int(choice)
             if choice >= 0 and choice <= 8:  # Kontrollera om valet är inom giltigt intervall
-                logger.log(f"Användaren har gjort val {choice} från huvudmenun")  # Logga valet
+                #Avaktivera kommentaret i nedanstående raden för att aktivera loggning av användarvalet
+                #logger.log(f"Användaren har gjort val\t|{choice}| från huvudmenun")
 
                 # Hantera olika val
                 if choice == 1:
@@ -92,7 +92,6 @@ def main_menu():
             print(f"{txdec.RED}Ogiltig inmatning, vänligen ange ett nummer.{txdec.END}")
             logger.log("Användaren har matat in ogiltig inmatning.")  # Logga ogiltig inmatning
 
-# Starta övervakningsläge om en övervakning är aktiv
 def start_monitoring_mode():
     mon = monitor
     if not mon.active:  # Kontrollera om övervakning är aktiv
@@ -113,6 +112,5 @@ def start_monitoring_mode():
             logger.log("Övervakningsläge avslutad")  # Logga att övervakningsläget avslutats
             pass
 
-# Kör programmet om det körs direkt
 if __name__ == "__main__":
     main_menu()

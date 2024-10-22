@@ -1,6 +1,6 @@
 import json, os, time  # Importerar nödvändiga bibliotek för JSON-hantering, systemkommandon och tidskontroll
-from logger import Logger  # Importerar Logger-klassen för loggning av händelser
-from email_alert import send_email_alert  # Importerar funktionen för att skicka e-postalarmer
+from logger import Logger
+from email_alert import send_email_alert
 from textdecor import textdec
 
 alarmlogger = Logger()  # Skapar en instans av Logger
@@ -10,7 +10,7 @@ class AlarmManager:
     def __init__(self):
         # Initierar larm som en dictionary för CPU, minne och disk
         self.alarms = {"CPU": [], "Memory": [], "Disk": []}
-        self.load_alarms()  # Laddar befintliga larm från fil
+        self.load_alarms()
 
     def configure_alarm(self):
         while True:
@@ -29,15 +29,15 @@ class AlarmManager:
                 category = "Memory"
             elif choice == "3":
                 category = "Disk"
-            elif choice == "4":  # Om användaren vill återgå
-                os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                print(f"\n{txd.CYAN}Återgår till huvudmenyn...{txd.END}")  # Bekräftar återgång
-                time.sleep(0.4)  # Väntar en kort stund
-                os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen igen
+            elif choice == "4":
+                os.system("cls" if os.name == "nt" else "clear")
+                print(f"\n{txd.CYAN}Återgår till huvudmenyn...{txd.END}")
+                time.sleep(0.4)
+                os.system("cls" if os.name == "nt" else "clear")
                 break
             else:
                 os.system("cls" if os.name == "nt" else "clear")
-                print(f"{txd.RED}Felaktigt val. Välj ett alternativ mellan 1 och 4.{txd.END}")  # Felmeddelande för ogiltigt val
+                print(f"{txd.RED}Felaktigt val. Välj ett alternativ mellan 1 och 4.{txd.END}")
                 continue
 
             # Om valet är giltigt
@@ -47,39 +47,39 @@ class AlarmManager:
                               f"{txd.END}{txd.YELLOW} alarm mellan 0-100:\nEller '{txd.BLUE}<{txd.END}"
                               f"{txd.YELLOW}' för att gå tillbaka{txd.END}\nVäntar på input: ")
 
-                if level == "<":  # Om användaren vill gå tillbaka
+                if level == "<":
                     os.system("cls" if os.name == "nt" else "clear")
-                    print(f"{txd.GREEN}Tillbaka till val av larmtyp...{txd.END}")  # Bekräftar återgång
-                    time.sleep(0.4)  # Väntar en kort stund
+                    print(f"{txd.GREEN}Tillbaka till val av larmtyp...{txd.END}")
+                    time.sleep(0.4)
                     break
 
                 try:
                     level = int(level)  # Konverterar inmatningen till ett heltal
 
-                    if 0 < level <= 100:  # Kontrollerar att nivån är inom det giltiga intervallet
+                    if 0 < level <= 100:
                         # Kolla om nivån redan finns i den valda kategorin
                         if level in self.alarms[category]:
                             os.system("cls" if os.name == "nt" else "clear")
                             print(f"{txd.RED}{category}-larm på {level}% finns redan!{txd.END}")
-                            print(f"Befintliga {category}-larm: {self.alarms[category]}")  # Visar existerande värden
+                            print(f"Befintliga {category}-larm: {self.alarms[category]}")
                         else:
                             self.alarms[category].append(level)  # Lägger till larmnivån om den inte redan finns
-                            os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                            print(f"{txd.YELLOW}{category.capitalize()} larm satt till{txd.END} {txd.GREEN}{level}%{txd.END}")  # Bekräftar larminställningen
-                            self.save_alarms()  # Sparar aktuella larm
-                            alarmlogger.log(f"{category.capitalize()} larm är konfigurerat och satt till {level} %")
+                            os.system("cls" if os.name == "nt" else "clear")
+                            print(f"{txd.YELLOW}{category.capitalize()} larm satt till{txd.END} {txd.GREEN}{level}%{txd.END}")
+                            self.save_alarms()
+                            alarmlogger.log(f"{category.capitalize()}   \tlarm är konfigurerat och satt till\t|{level} %|")
                             break
 
                     else:
                         os.system("cls" if os.name == "nt" else "clear")
-                        print(f"{txd.RED}Felaktig nivå.{txd.END} {txd.YELLOW}Ange en siffra mellan 1-100.{txd.END}")  # Felmeddelande
+                        print(f"{txd.RED}Felaktig nivå.{txd.END} {txd.YELLOW}Ange en siffra mellan 1-100.{txd.END}")
 
                 except ValueError:
                     os.system("cls" if os.name == "nt" else "clear")
-                    print(f"{txd.RED}Felaktig input.{txd.END} {txd.YELLOW}Ange en siffra mellan 1-100.{txd.END}")  # Felmeddelande för ogiltig inmatning
+                    print(f"{txd.RED}Felaktig input.{txd.END} {txd.YELLOW}Ange en siffra mellan 1-100.{txd.END}")
 
     def display_alarms(self):
-        os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
+        os.system("cls" if os.name == "nt" else "clear")
 
         # Funktionell visning av larmkategorier och nivåer
         print(f"{txd.GREEN}Lista: lagrade larm.\n{txd.END}")
@@ -90,11 +90,11 @@ class AlarmManager:
 
         # Väntar på användarinmatning (sidoeffekt !)
         input(f"{txd.YELLOW}\nTryck '{txd.BLUE}Enter{txd.END}{txd.YELLOW}' för att återgå till huvudmeny{txd.END} ")
-        os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
+        os.system("cls" if os.name == "nt" else "clear")
         alarmlogger.log("Lista med lagrade larm har visats i skärmen")
 
     def remove_alarm(self):
-        os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
+        os.system("cls" if os.name == "nt" else "clear")
         
         while True:
             try:
@@ -112,7 +112,7 @@ class AlarmManager:
                 
                 if not alarm_list:  # Om inga larm finns
                     os.system("cls" if os.name == "nt" else "clear")
-                    print(f"{txd.YELLOW}Inga larm att ta bort.{txd.END}")  # Meddelande om tom larmlista
+                    print(f"{txd.YELLOW}Inga larm att ta bort.{txd.END}")
                     return
 
                 # Tar emot användarens val för vilket larm som ska tas bort
@@ -123,23 +123,23 @@ class AlarmManager:
                     category, level = alarm_list[choice - 1]  # Hämta larmkategori och nivå
                     self.alarms[category].remove(level)  # Tar bort larm från kategorin
                     
-                    os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                    print(f"{txd.YELLOW}\nLarm {category} {level}% borttaget. Återgår till huvudmenyn...{txd.END}")  # Bekräftar borttagning
-                    self.save_alarms()  # Sparar ändrade larm
-                    alarmlogger.log(f"Larm för {category} {level} % är borttaget")
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print(f"{txd.YELLOW}\nLarm {category} {level}% borttaget. Återgår till huvudmenyn...{txd.END}")
+                    self.save_alarms()
+                    alarmlogger.log(f"Larm för\t|{category}|   \t|{level} %| är borttaget")
                     break
                 
-                elif choice == 0:  # Om användaren vill återgå
-                    os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
+                elif choice == 0:
+                    os.system("cls" if os.name == "nt" else "clear")
                     break
                 
                 else:
-                    os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                    print(f"\n{txd.RED}Ogiltigt val, försök igen.{txd.END}")  # Felmeddelande
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print(f"\n{txd.RED}Ogiltigt val, försök igen.{txd.END}")
 
             except ValueError:  # Hantering av ogiltig inmatning
-                os.system("cls" if os.name == "nt" else "clear")  # Rensar skärmen
-                print(f"\n{txd.RED}Felaktig input, försök igen.{txd.END}")  # Felmeddelande
+                os.system("cls" if os.name == "nt" else "clear")
+                print(f"\n{txd.RED}Felaktig input, försök igen.{txd.END}")
 
     def check_alarm(self, cpu, memory, disk):
         triggered = []  # Lista för att lagra utlösta larm
@@ -147,26 +147,23 @@ class AlarmManager:
         # Loopar igenom CPU-larm och kontrollerar om användningen överskrider nivån
         for level in sorted(self.alarms["CPU"], reverse=True):  
             if cpu > level:  # Kontrollerar om CPU-användningen överskrider nivån
-                triggered.append(f"*** VARNING, CPU ANVÄNDNING ÖVERSTIGER\t\t\t{level}% ***")  # Lägger till varning
+                triggered.append(f"*** VARNING, CPU ANVÄNDNING ÖVERSTIGER   \t\t|{level}%| ***")  # Lägger till varning
                 break  # Avbryter loopen efter att första varningen har lagts till
         
-        # Loopar igenom minneslarm och kontrollerar om användningen överskrider nivån
         for level in sorted(self.alarms["Memory"], reverse=True):  
-            if memory > level:  # Kontrollerar om minnesanvändningen överskrider nivån
-                triggered.append(f"*** VARNING, MINNESANVÄNDNING ÖVERSTIGER\t\t{level}% ***")  # Lägger till varning
-                break  # Avbryter loopen efter att första varningen har lagts till
-        
-        # Loopar igenom disklarm och kontrollerar om användningen överskrider nivån
+            if memory > level:
+                triggered.append(f"*** VARNING, MINNESANVÄNDNING ÖVERSTIGER\t\t|{level}%| ***")
+                break
+
         for level in sorted(self.alarms["Disk"], reverse=True):  
-            if disk > level:  # Kontrollerar om diskanvändningen överskrider nivån
-                triggered.append(f"*** VARNING, DISKANVÄNDNING ÖVERSTIGER\t\t\t{level}% ***")  # Lägger till varning
-                break  # Avbryter loopen efter att första varningen har lagts till
+            if disk > level:
+                triggered.append(f"*** VARNING, DISKANVÄNDNING ÖVERSTIGER   \t\t|{level}%| ***")
+                break
         
         for message in triggered:  # Loopar igenom utlösta larm
             print(message)  # Visar varning på skärmen
             alarmlogger.log(f"Larm AKTIVERAD {message}")  # Loggar varningen
             send_email_alert(message)  # Skickar e-postvarning
-            #alarmlogger.log(message)  # Loggar varningen med Logger
 
     def save_alarms(self):
         # Öppnar (eller skapar) en fil för att spara larm

@@ -18,19 +18,23 @@ SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 
 def send_email_alert(message):
     try:
+        # Skapar ett e-postmeddelande med avsändare, mottagare, ämne och innehåll
         email = Mail(
             from_email=SENDER_EMAIL,
             to_emails=RECIPIENT_EMAIL,
             subject="Larm aktiverat i övervakningsapplikationen",
             plain_text_content=message,
         )
+        # Skapar en klient för att skicka e-post via SendGrid
         sg = SendGridAPIClient(SENDGRID_API_KEY)
+        # Skickar e-postmeddelandet och loggar statuskoden
         response = sg.send(email)
         print(f"E-post skickat med statuskod {response.status_code}")
-        email_logger.log(f"E-post skickat med statuskod {response.status_code}")
+        email_logger.log(f"E-post skickat med statuskod\t|{response.status_code}|")
     except Exception as e:
+        # Fångar och loggar eventuella fel som uppstår under e-postsändningen
         print(f"Misslyckades med att skicka e-post: {str(e)}")
-        email_logger.log(f"Misslyckades med att skicka e-post: {str(e)}")
+        email_logger.log(f"Misslyckades med att skicka e-post:\t|{str(e)}|")
 
 def create_or_update_env_file():
     """

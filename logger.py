@@ -1,7 +1,6 @@
 import os
 import datetime
 
-
 class Logger:
     def __init__(self):
         # Skapa logs-mappen om den inte finns
