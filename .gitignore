@@ -7,3 +7,4 @@ alarms.json
 *.log
 ToDo.md
 .env
+test.py
