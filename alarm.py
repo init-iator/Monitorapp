@@ -1,7 +1,11 @@
-import json, os, time  # Importerar nödvändiga bibliotek för JSON-hantering, systemkommandon och tidskontroll
+import json, os, time, datetime  # Importerar nödvändiga bibliotek för JSON-hantering, systemkommandon och tidskontroll
 from logger import Logger
 from email_alert import send_email_alert
 from textdecor import textdec
+
+# Globala variabler för att hålla koll på senaste e-posttid
+last_email_sent_time = None
+email_interval = datetime.timedelta(minutes=1)  # 1 minuter
 
 alarmlogger = Logger()  # Skapar en instans av Logger
 txd = textdec()
@@ -142,6 +146,9 @@ class AlarmManager:
                 print(f"\n{txd.RED}Felaktig input, försök igen.{txd.END}")
 
     def check_alarm(self, cpu, memory, disk):
+
+        global last_email_sent_time
+
         triggered = []  # Lista för att lagra utlösta larm
         
         # Loopar igenom CPU-larm och kontrollerar om användningen överskrider nivån
@@ -160,10 +167,24 @@ class AlarmManager:
                 triggered.append(f"*** VARNING, DISKANVÄNDNING ÖVERSTIGER   \t\t|{level}%| ***")
                 break
         
-        for message in triggered:  # Loopar igenom utlösta larm
-            print(message)  # Visar varning på skärmen
-            alarmlogger.log(f"Larm AKTIVERAD {message}")  # Loggar varningen
-            send_email_alert(message)  # Skickar e-postvarning
+        # for message in triggered:  # Loopar igenom utlösta larm
+        #     print(message)  # Visar varning på skärmen
+        #     alarmlogger.log(f"Larm AKTIVERAD {message}")  # Loggar varningen
+        #     send_email_alert(message)  # Skickar e-postvarning
+
+
+        # Om det finns larm att logga
+        if triggered:
+            for message in triggered:
+                print(message)
+                alarmlogger.log(f"Larm AKTIVERAD {message}")
+
+            # Kontrollera om 1 minuter har gått sedan senaste e-post skickades
+            current_time = datetime.datetime.now()
+            if last_email_sent_time is None or current_time - last_email_sent_time >= email_interval:
+                for message in triggered:
+                    send_email_alert(message)  # Skickar e-postvarning
+                last_email_sent_time = current_time  # Uppdatera tiden för senaste e-post
 
     def save_alarms(self):
         # Öppnar (eller skapar) en fil för att spara larm

@@ -5,12 +5,11 @@ Problem med applikationen
 - [x]   Sätt upp e-post konton.
 - [x]   Arbeta med requirements
 - [x]   Arbeta med coloring bibliotek: colorama eller native
-- []    Kontrollera kommentarena ! ! !
+- [x]   Kontrollera kommentarena ! ! !
+- [x]   Arbeta med loggningen och se till att loggar ser snygga ut.
+- []    Drive chooser or add multiple drives
 - []    Arbeta med konfiguration av intervallet för kontroll för larm. Extra inställning
 - []    Fundera på inaktivering och aktiverings funktion för email utskick. Extra inställning
 - []    Arbeta med val 7 från huvudmenun, när den körs så körs huvudmenun i bakrunden, lös det!
-- []    Arbeta med loggningen och se till att loggar ser snygga ut.
 - []    Arbeta med README filen.
 - []    Fråga Felix om Licens hantering.
-- []    email sender activator 
-- []    drive chooser or add multiple drives

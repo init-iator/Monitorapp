@@ -72,20 +72,43 @@ class Monitor:
         
         alarm_manager.check_alarm(cpu_usage, memory_usage, disk_usage)  # Kontrollerar larm med aktuella användningsvärden
 
-    def start_realtimemonitor(self, cpu_usage, mem_usage, disk_usage, bars=50):   
+    def start_realtimemonitor(self, bars=50):
+        cpu_usage = psutil.cpu_percent()
+        mem_usage = psutil.virtual_memory().percent
+
+        # Skapa CPU-användningsstapel
         cpu_percent = (cpu_usage / 100.0)
-        cpu_bar = '█' * int(cpu_percent * bars) + '-' * (bars - int(cpu_percent * bars))  # Skapa CPU-användningsstapel
-        mem_procent = (mem_usage / 100.0)
-        mem_bar = '█' * int(mem_procent * bars) + '-' * (bars - int(mem_procent * bars))
-        disk_percent = (disk_usage / 100.0)
-        disk_bar = '█' * int(disk_percent * bars) + '-' * (bars - int(disk_percent * bars))
-        # Visa användningsstaplarna
+        cpu_bar = '█' * int(cpu_percent * bars) + '-' * (bars - int(cpu_percent * bars))
+        
+        # Skapa minnesanvändningsstapel
+        mem_percent = (mem_usage / 100.0)
+        mem_bar = '█' * int(mem_percent * bars) + '-' * (bars - int(mem_percent * bars))
+        
+        # Skriv ut CPU och minnesanvändning
         print(
-            f"\n\nCPU Usage:  |{cpu_bar}| {cpu_usage:.2f}%\n\n"
-            f"MEM Usage:  |{mem_bar}| {mem_usage:.2f}%\n\n"
-            f"DISK Usage: |{disk_bar}| {disk_usage:.2f}%"
+            f"\n\nCPU Usage:\t|{cpu_bar}| {cpu_usage:.2f}%\n\n"
+            f"MEM Usage:\t|{mem_bar}| {mem_usage:.2f}%\n"
         )
+        
+        # Hämta alla monterade partitioner och visa diskutnyttjande för varje
+        partitions = psutil.disk_partitions()
+        for partition in partitions:
+            try:
+                usage = psutil.disk_usage(partition.mountpoint)
+                disk_percent = (usage.percent / 100.0)
+                disk_bar = '█' * int(disk_percent * bars) + '-' * (bars - int(disk_percent * bars))
+                
+                # Visa varje disks användningsstapel och detaljer
+                print(
+                    f"Disk {partition.device}\t"
+                    f"|{disk_bar}| {usage.percent:.2f}%\n"
+                )
+            except PermissionError:
+                # Om åtkomst nekas till partitionen
+                print(f"Åtkomst nekad för {partition.device}")
+        
+        # Uppmaning för att avsluta realtidsövervakning
         print(
             f"\n{txd.YELLOW}Tryck \'{txd.BLUE}Ctrl+c{txd.END}{txd.YELLOW}\' för att avbryta prestandaövervakningen och gå tillbaka till huvudmenyn: {txd.END}", 
             end="\n"
-            )
+        )

@@ -3,9 +3,9 @@ from alarm import AlarmManager
 from logger import Logger
 from textdecor import textdec
 from email_alert import create_or_update_env_file
-import time, os, psutil
+import time, os
 
-# Initiera övervakning, larmhantering och loggning
+# Initiera övervakning, larmhantering och loggning och skapa instanser av klasserna
 monitor = Monitor()
 alarm_manager = AlarmManager()
 logger = Logger()
@@ -60,9 +60,6 @@ def main_menu():
                         while True:
                             # Kör realtidsövervakning för CPU, minne och disk
                             monitor.start_realtimemonitor(
-                                psutil.cpu_percent(),
-                                psutil.virtual_memory().percent,
-                                psutil.disk_usage("/").percent,
                                 30 # Argument för bars parametern
                                 )
                             time.sleep(0.6)
@@ -105,7 +102,7 @@ def start_monitoring_mode():
         try:
             while True:
                 monitor.check_status(alarm_manager)
-                time.sleep(1)
+                time.sleep(2)
         except KeyboardInterrupt:
             os.system("cls" if os.name == "nt" else "clear")
             print(f"{txdec.RED}Övervakningsläge avslutad\n{txdec.END}")
