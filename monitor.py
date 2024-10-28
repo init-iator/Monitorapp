@@ -1,9 +1,11 @@
 from logger import Logger  # Importerar Logger-klassen för loggning av händelser
 from textdecor import textdec
+from alarm import AlarmManager
 import psutil, os, time
 
 logformon = Logger()  # Skapar en instans av Logger
 txd = textdec()
+alarm_manager = AlarmManager()
 
 class Monitor:
     def __init__(self):
@@ -65,12 +67,28 @@ class Monitor:
                 print(f"{txd.RED}Du måste trycka på endast '{txd.BLUE}Enter{txd.END}"
                       f"{txd.RED}' Försök igen.{txd.RED}")
 
-    def check_status(self, alarm_manager):
-        cpu_usage = psutil.cpu_percent(interval=0)  # Hämtar aktuell CPU-användning
-        memory_usage = psutil.virtual_memory().percent
-        disk_usage = psutil.disk_usage('/').percent
-        
-        alarm_manager.check_alarm(cpu_usage, memory_usage, disk_usage)  # Kontrollerar larm med aktuella användningsvärden
+    def start_monitoring_mode(self):
+        if not self.active:  # Kontrollera om övervakning är aktiv
+            os.system("cls" if os.name == "nt" else "clear")
+            print(f"{txd.YELLOW}Ingen övervakning är aktiv. Aktivera alternativ \'{txd.BLUE}1{txd.END}"
+                  f"{txd.YELLOW}\' från huvudmenyn först!{txd.END}")
+        else:
+            os.system("cls" if os.name == "nt" else "clear")
+            print(f"{txd.RED}Övervakningen är aktiv. Tryck på \"Ctrl+C\" för att återgå till huvudmenyn.\n{txd.END}")
+            logformon.log("Övervakningsläge startat")
+            while True:
+                try:
+                    cpu_usage = psutil.cpu_percent(interval=0)  # Hämtar aktuell CPU-användning
+                    memory_usage = psutil.virtual_memory().percent
+                    disk_usage = psutil.disk_usage('/').percent
+
+                    alarm_manager.check_alarm(cpu_usage, memory_usage, disk_usage)  # Kontrollerar larm med aktuella användningsvärden
+                    time.sleep(2)
+                except KeyboardInterrupt:
+                    os.system("cls" if os.name == "nt" else "clear")
+                    print(f"{txd.RED}Övervakningsläge avslutad\n{txd.END}")
+                    logformon.log("Övervakningsläge avslutad")
+                    break
 
     def start_realtimemonitor(self, bars=50):
         cpu_usage = psutil.cpu_percent()

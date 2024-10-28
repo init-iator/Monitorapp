@@ -50,7 +50,7 @@ def main_menu():
                 elif choice == 4:
                     alarm_manager.display_alarms()
                 elif choice == 5:
-                    start_monitoring_mode()
+                    monitor.start_monitoring_mode()
                 elif choice == 6:
                     alarm_manager.remove_alarm()
                 elif choice == 7:
@@ -88,26 +88,6 @@ def main_menu():
             os.system("cls" if os.name == "nt" else "clear")
             print(f"{txdec.RED}Ogiltig inmatning, vänligen ange ett nummer.{txdec.END}")
             logger.log("Användaren har matat in ogiltig inmatning.")
-
-def start_monitoring_mode():
-    mon = monitor
-    if not mon.active:  # Kontrollera om övervakning är aktiv
-        os.system("cls" if os.name == "nt" else "clear")
-        print(f"{txdec.YELLOW}Ingen övervakning är aktiv. Aktivera alternativ \'{txdec.BLUE}1{txdec.END}"
-              f"{txdec.YELLOW}\' från huvudmenyn först!{txdec.END}")
-    else:
-        os.system("cls" if os.name == "nt" else "clear")
-        print(f"{txdec.RED}Övervakningen är aktiv. Tryck på \"Ctrl+C\" för att återgå till huvudmenyn.\n{txdec.END}")
-        logger.log("Övervakningsläge startat")
-        try:
-            while True:
-                monitor.check_status(alarm_manager)
-                time.sleep(2)
-        except KeyboardInterrupt:
-            os.system("cls" if os.name == "nt" else "clear")
-            print(f"{txdec.RED}Övervakningsläge avslutad\n{txdec.END}")
-            logger.log("Övervakningsläge avslutad")
-            pass
 
 if __name__ == "__main__":
     main_menu()
