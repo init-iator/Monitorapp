@@ -3,7 +3,7 @@
 # ignore experiment files:
 zexperiment.py
 zodl_monitor.py
+alarms.json
 *.log
-Planering.txt
-ToDo.md
 .env
+test.py

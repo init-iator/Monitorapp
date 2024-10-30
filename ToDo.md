@@ -1,0 +1,15 @@
+Problem med applikationen
+- [x]   Lägg till logger på all interaktion
+- [x]   Arbeta med sendgrind
+- [x]   Skapa konto och hämta API nyckel
+- [x]   Sätt upp e-post konton.
+- [x]   Arbeta med requirements
+- [x]   Arbeta med coloring bibliotek: colorama eller native
+- [x]   Kontrollera kommentarena ! ! !
+- [x]   Arbeta med loggningen och se till att loggar ser snygga ut.
+- []    Drive chooser or add multiple drives
+- []    Arbeta med konfiguration av intervallet för kontroll för larm. Extra inställning
+- []    Fundera på inaktivering och aktiverings funktion för email utskick. Extra inställning
+- []    Arbeta med val 7 från huvudmenun, när den körs så körs huvudmenun i bakrunden, lös det!
+- []    Arbeta med README filen.
+- []    Fråga Felix om Licens hantering.
