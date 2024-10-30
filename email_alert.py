@@ -6,10 +6,6 @@ from dotenv import load_dotenv, find_dotenv, set_key
 from textdecor import textdec
 
 txd = textdec()
-
-# Ladda miljövariabler från .env-filen
-load_dotenv(".env", override=True)
-
 email_logger = Logger()
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
@@ -37,12 +33,11 @@ def send_email_alert(message):
         email_logger.log(f"Misslyckades med att skicka e-post:\t|{str(e)}|")
 
 def create_or_update_env_file():
-
+    # Ladda miljövariabler från .env-filen
     dotenv_path = find_dotenv()
-
     if dotenv_path:
         # .env-fil hittades, ladda innehållet
-        load_dotenv(dotenv_path)
+        load_dotenv(dotenv_path, override=True)
         print(f"{txd.GREEN}Hittade en befintlig .env-fil med följande innehåll:{txd.END}")
         print(f"{txd.BLUE}SENDGRID_API_KEY{txd.END}={os.getenv('SENDGRID_API_KEY')}")
         print(f"{txd.BLUE}RECIPIENT_EMAIL{txd.END}={os.getenv('RECIPIENT_EMAIL')}")
@@ -51,8 +46,8 @@ def create_or_update_env_file():
         # Fråga användaren om informationen stämmer
         confirm = input(f"Stämmer ovanstående information? ({txd.GREEN}ja{txd.END}/{txd.RED}nej{txd.END}): ")
         if confirm.lower() == "ja":
-            print(f"{txd.BOLD}{txd.YELLOW}.env-filen har lästs in.{txd.END}{txd.END}")
 
+            print(f"{txd.BOLD}{txd.YELLOW}.env-filen har lästs in.{txd.END}{txd.END}")
         elif confirm.lower() == "nej":
             
             # Om användaren svarar nej, prompt för nya värden
