@@ -6,3 +6,4 @@ zodl_monitor.py
 alarms.json
 *.log
 .env
+test.py
