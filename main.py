@@ -15,6 +15,8 @@ txdec = textdec()
 logger.log("Applikationen startad")
 os.system("cls" if os.name == "nt" else "clear")
 
+alarm_manager.load_alarms()
+
 def main_menu():
     while True:
         # Visa menyalternativ

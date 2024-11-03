@@ -196,6 +196,13 @@ class AlarmManager:
             # Försöker öppna filen med larm
             with open('alarms.json', 'r') as f:  
                 self.alarms = json.load(f)  # Laddar larm från fil
+
+                # Kontrollera om alla listor i self.alarms är tomma
+                if all(isinstance(value, list) and not value for value in self.alarms.values()):
+                    print(f"{txd.YELLOW}Filen hittades: Inga lagrade larm hittades (alla listor är tomma){txd.END}")
+                else:
+                    print(f"{txd.YELLOW}Filen hittades: Lagrade larm lästes in{txd.END}")
+
         except FileNotFoundError:  # Hantering av fel om filen inte finns
-            alarmlogger.log("Kunde inte ladda filen med lagrade larm")
-            pass  # Inga åtgärder vid fil inte hittades
+            print(f"{txd.YELLOW}Hittade inte filen med lagrade larm: Skapa larm för att skapa ny fil{txd.END}")
+            alarmlogger.log("Hittade inte filen med lagrade larm")
